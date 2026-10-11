@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Học và ôn tập kiến thức bằng flashcard tương tác."
+    />
+    <title>Học qua thẻ | OpenQuiz</title>
+    <link rel="stylesheet" href="../css/reset.css" />
+    <link rel="stylesheet" href="../css/variables.css" />
+    <link rel="stylesheet" href="../css/global.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/responsive.css" />
+  </head>
+  <body class="oq-study-page">
+    <a class="oq-skip-link" href="#study-content">Đi tới nội dung bài học</a>
+
+    <div
+      class="oq-app-shell"
+      data-sidebar-collapsed="false"
+      data-sidebar-open="false"
+    >
+      <div data-sidebar-mount></div>
+      <button
+        class="oq-sidebar-backdrop"
+        type="button"
+        aria-label="Đóng thanh điều hướng"
+        data-sidebar-backdrop
+        hidden
+      ></button>
+
+      <main id="study-content" class="oq-study" tabindex="-1">
+        <header class="oq-study__topbar">
+          <div class="oq-study__topbar-start">
+            <button
+              class="oq-btn oq-btn--icon oq-btn--flat oq-study__mobile-menu"
+              type="button"
+              aria-label="Mở thanh điều hướng"
+              aria-expanded="false"
+              data-mobile-sidebar-open
+            >
+              <span class="oq-icon oq-icon--menu" aria-hidden="true"></span>
+            </button>
+
+            <nav class="oq-study__breadcrumb" aria-label="Đường dẫn bài học">
+              <a href="./intro.html" aria-label="Về trang giới thiệu">
+                <span class="oq-icon oq-icon--home" aria-hidden="true"></span>
+              </a>
+              <span aria-hidden="true">/</span>
+              <span data-course-title>Lập trình hướng đối tượng</span>
+              <span aria-hidden="true">/</span>
+              <strong data-lesson-order>Bài 2</strong>
+            </nav>
+          </div>
+
+          <button
+            class="oq-btn oq-btn--icon oq-btn--flat oq-study__theme-toggle"
+            type="button"
+            aria-label="Chuyển sang giao diện tối"
+            aria-pressed="false"
+            data-theme-toggle
+          >
+            <span class="oq-icon oq-icon--settings" aria-hidden="true"></span>
+          </button>
+        </header>
+
+        <div
+          class="oq-study__notice oq-study__notice--warning"
+          role="status"
+          data-storage-warning
+          hidden
+        >
+          Tiến độ chỉ được lưu trong phiên hiện tại vì trình duyệt không cho
+          phép sử dụng bộ nhớ cục bộ.
+        </div>
+
+        <div
+          class="oq-study__notice oq-study__notice--error"
+          role="alert"
+          data-study-error
+          hidden
+        >
+          Không thể tải dữ liệu bài học. Hãy mở dự án bằng máy chủ HTTP và thử
+          lại.
+        </div>
+
+        <section
+          class="oq-study__workspace"
+          aria-labelledby="study-title"
+          data-study-workspace
+        >
+          <header class="oq-study__heading">
+            <div>
+              <p class="oq-study__eyebrow">Học qua thẻ</p>
+              <h1 id="study-title" data-lesson-title>Phương thức và hành vi</h1>
+            </div>
+            <p class="oq-study__counter" aria-live="polite">
+              <span data-card-position>1</span>
+              <span aria-hidden="true">/</span>
+              <span data-card-total>3</span>
+            </p>
+          </header>
+
+          <div
+            class="oq-study__progress"
+            role="progressbar"
+            aria-label="Tiến độ flashcard"
+            aria-valuemin="1"
+            aria-valuemax="3"
+            aria-valuenow="1"
+            data-study-progress
+          >
+            <span data-study-progress-fill></span>
+          </div>
+
+          <div
+            class="oq-study-card oq-flashcard oq-flashcard--controlled"
+            data-study-card
+          >
+            <button
+              class="oq-flashcard__inner"
+              type="button"
+              aria-pressed="false"
+              aria-label="Lật thẻ để xem định nghĩa"
+              data-card-flip
+            >
+              <span
+                class="oq-flashcard__face oq-flashcard__face--front"
+                data-card-front
+              >
+                <span class="oq-study-card__label">Khái niệm</span>
+                <span class="oq-flashcard__term" data-card-question
+                  >Phương thức là gì?</span
+                >
+                <span class="oq-study-card__hint">
+                  <span
+                    class="oq-icon oq-icon--replay"
+                    aria-hidden="true"
+                  ></span>
+                  Nhấn vào thẻ để lật
+                </span>
+              </span>
+
+              <span
+                class="oq-flashcard__face oq-flashcard__face--back"
+                data-card-back
+                aria-hidden="true"
+              >
+                <span class="oq-study-card__label">Định nghĩa</span>
+                <span
+                  class="oq-flashcard__definition"
+                  data-card-definition
+                ></span>
+                <span class="oq-study-card__example" data-card-example></span>
+                <span class="oq-study-card__hint">
+                  <span
+                    class="oq-icon oq-icon--replay"
+                    aria-hidden="true"
+                  ></span>
+                  Nhấn để xem câu hỏi
+                </span>
+              </span>
+            </button>
+          </div>
+
+          <div class="oq-study-controls" aria-label="Điều khiển flashcard">
+            <button
+              class="oq-btn oq-btn--outline oq-btn--lg oq-btn--flat oq-study-controls__previous"
+              type="button"
+              data-card-previous
+            >
+              <span
+                class="oq-icon oq-icon--arrow-back"
+                aria-hidden="true"
+              ></span>
+              <span>Trước</span>
+            </button>
+
+            <div class="oq-study-assessment" aria-label="Tự đánh giá">
+              <div class="oq-study-assessment__option">
+                <button
+                  class="oq-study-assessment__button oq-study-assessment__button--review"
+                  type="button"
+                  aria-label="Đánh dấu chưa nhớ"
+                  aria-pressed="false"
+                  data-card-rating="review"
+                >
+                  <span
+                    class="oq-icon oq-icon--close"
+                    aria-hidden="true"
+                  ></span>
+                </button>
+                <span>Chưa nhớ</span>
+              </div>
+
+              <div class="oq-study-assessment__option">
+                <button
+                  class="oq-study-assessment__button oq-study-assessment__button--known"
+                  type="button"
+                  aria-label="Đánh dấu đã nhớ"
+                  aria-pressed="false"
+                  data-card-rating="known"
+                >
+                  <span
+                    class="oq-icon oq-icon--check"
+                    aria-hidden="true"
+                  ></span>
+                </button>
+                <span>Đã nhớ</span>
+              </div>
+            </div>
+
+            <button
+              class="oq-btn oq-btn--primary oq-btn--lg oq-btn--flat oq-study-controls__next"
+              type="button"
+              data-card-next
+            >
+              <span>Sau</span>
+              <span class="oq-icon oq-icon--arrow" aria-hidden="true"></span>
+            </button>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <dialog
+      class="oq-result-modal"
+      aria-labelledby="result-title"
+      data-result-dialog
+    >
+      <div class="oq-result-modal__panel">
+        <button
+          class="oq-btn oq-btn--icon oq-btn--flat oq-result-modal__close"
+          type="button"
+          aria-label="Đóng kết quả"
+          data-result-close
+        >
+          <span class="oq-icon oq-icon--close" aria-hidden="true"></span>
+        </button>
+
+        <span class="oq-result-modal__icon" aria-hidden="true">
+          <span class="oq-icon oq-icon--style"></span>
+        </span>
+        <p class="oq-result-modal__eyebrow">Hoàn thành bài học</p>
+        <h2 id="result-title">Bạn đã đi hết bộ thẻ</h2>
+        <p class="oq-result-modal__description" data-result-message>
+          Tiếp tục ôn tập để ghi nhớ kiến thức lâu hơn.
+        </p>
+
+        <div class="oq-result-modal__stats">
+          <div>
+            <span>Đã nhớ</span>
+            <strong
+              ><span data-result-known>0</span>/<span data-result-total
+                >0</span
+              ></strong
+            >
+          </div>
+          <div>
+            <span>Phần trăm</span>
+            <strong data-result-percentage>0%</strong>
+          </div>
+        </div>
+
+        <div class="oq-result-modal__actions">
+          <button
+            class="oq-btn oq-btn--outline oq-btn--lg oq-btn--flat"
+            type="button"
+            data-study-restart
+          >
+            <span class="oq-icon oq-icon--replay" aria-hidden="true"></span>
+            Học lại
+          </button>
+          <a
+            class="oq-btn oq-btn--primary oq-btn--lg oq-btn--flat"
+            href="./quiz.html"
+            data-continue-quiz
+          >
+            Kiểm tra
+            <span class="oq-icon oq-icon--arrow" aria-hidden="true"></span>
+          </a>
+        </div>
+      </div>
+    </dialog>
+
+    <noscript>
+      <p class="oq-noscript">
+        Trang Study cần JavaScript để tải flashcard và lưu tiến độ học.
+      </p>
+    </noscript>
+    <script type="module" src="../js/study.js"></script>
+  </body>
+</html>

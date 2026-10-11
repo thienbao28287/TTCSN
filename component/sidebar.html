@@ -1,0 +1,39 @@
+<aside class="oq-sidebar" aria-label="Điều hướng học tập" data-sidebar>
+  <header class="oq-sidebar__header">
+    <button
+      class="oq-btn oq-btn--icon oq-btn--flat oq-sidebar__toggle"
+      type="button"
+      aria-label="Thu gọn thanh điều hướng"
+      aria-expanded="true"
+      data-sidebar-toggle
+    >
+      <span class="oq-icon oq-icon--menu" aria-hidden="true"></span>
+    </button>
+  </header>
+
+  <nav class="oq-sidebar__nav" aria-label="Các chức năng học tập">
+    <section class="oq-sidebar__group" data-study-group>
+      <button
+        class="oq-sidebar__item oq-sidebar__item--section"
+        type="button"
+        aria-expanded="true"
+        data-lesson-list-toggle
+      >
+        <span class="oq-icon oq-icon--style" aria-hidden="true"></span>
+        <span class="oq-sidebar__label">Học qua thẻ</span>
+        <span class="oq-icon oq-icon--expand-less oq-sidebar__chevron" aria-hidden="true"></span>
+      </button>
+      <ul class="oq-sidebar__lessons" role="list" data-sidebar-lessons></ul>
+    </section>
+
+    <a class="oq-sidebar__item" href="./quiz.html" data-sidebar-quiz>
+      <span class="oq-icon oq-icon--quiz" aria-hidden="true"></span>
+      <span class="oq-sidebar__label">Kiểm tra</span>
+    </a>
+
+    <a class="oq-sidebar__item" href="./statistics.html" data-sidebar-statistics>
+      <span class="oq-icon oq-icon--signal" aria-hidden="true"></span>
+      <span class="oq-sidebar__label">Thống kê</span>
+    </a>
+  </nav>
+</aside>
