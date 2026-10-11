@@ -1,4 +1,25 @@
-@media (max-width: 1023px) {
+/* Large desktop: 1440px and above */
+@media (min-width: 90rem) {
+  :root {
+    --oq-container: 76rem;
+    --oq-container-wide: 86rem;
+  }
+}
+
+/* Laptop and tablet landscape */
+@media (max-width: 74.999rem) {
+  :root {
+    --oq-container: 64rem;
+    --oq-container-wide: 70rem;
+  }
+
+  .oq-grid--4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Tablet: navigation collapses */
+@media (max-width: 63.999rem) {
   .oq-nav__links {
     position: fixed;
     inset: 4.75rem var(--oq-gutter) auto;
@@ -11,10 +32,14 @@
     box-shadow: var(--oq-shadow-xl);
     opacity: 0;
     transform: translateY(-0.75rem);
-    transition: opacity var(--oq-duration-base), transform var(--oq-duration-base), visibility var(--oq-duration-base);
+    transition:
+      opacity var(--oq-duration-base) var(--oq-ease),
+      transform var(--oq-duration-base) var(--oq-ease),
+      visibility var(--oq-duration-base);
   }
 
-  .oq-nav__links[data-open="true"] {
+  .oq-nav__links[data-open="true"],
+  .oq-nav__links.is-open {
     visibility: visible;
     opacity: 1;
     transform: translateY(0);
@@ -36,45 +61,21 @@
     display: none;
   }
 
-  .oq-menu-toggle {
+  .oq-nav__toggle {
     display: inline-flex;
   }
 
-  .section-heading--split,
-  .live-demo {
-    grid-template-columns: 1fr;
-  }
-
-  .motion-layout {
-    grid-template-columns: minmax(13rem, 0.48fr) minmax(0, 1fr);
-    gap: var(--oq-space-8);
-  }
-
-  .oq-footer__inner {
+  .oq-grid--3 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .product-shell {
-    grid-template-columns: 1fr;
-  }
-
-  .product-sidebar {
-    position: sticky;
-    top: 4.75rem;
-    z-index: 20;
-    padding: var(--oq-space-2) var(--oq-gutter);
-    overflow-x: auto;
-    border-right: 0;
-    border-bottom: 1px solid var(--oq-border);
-  }
-
-  .product-nav {
-    display: flex;
-    width: max-content;
   }
 }
 
-@media (max-width: 767px) {
+/* Mobile and tablet portrait */
+@media (max-width: 47.999rem) {
+  :root {
+    --oq-gutter: 1rem;
+  }
+
   .oq-nav__inner {
     min-height: 4.25rem;
   }
@@ -83,189 +84,58 @@
     top: 4.25rem;
   }
 
-  .nav-docs-cta {
-    display: none;
+  .oq-section {
+    padding-block: var(--oq-space-20);
   }
 
-  .hero {
-    min-height: auto;
-    padding-top: var(--oq-space-20);
-  }
-
-  .hero__title {
-    font-size: clamp(2.35rem, 11vw, 3.45rem);
-    letter-spacing: -0.06em;
-  }
-
-  .hero__visual {
-    min-height: 13rem;
-  }
-
-  .hero-token {
-    min-width: 7rem;
-    min-height: 4.5rem;
-    padding: var(--oq-space-3);
-  }
-
-  .hero-token--one { left: 0; }
-  .hero-token--two { top: 38%; left: 36%; }
-  .hero-token--three { right: 0; }
-
-  .foundation-bento,
-  .component-showcase {
+  .oq-grid--2,
+  .oq-grid--3,
+  .oq-grid--4 {
     grid-template-columns: 1fr;
   }
 
-  .foundation-bento__item:nth-child(n),
-  .showcase-card--wide {
-    grid-column: auto;
+  .oq-card__header,
+  .oq-card__body,
+  .oq-card__footer {
+    padding: var(--oq-space-5);
   }
 
-  .foundation-card {
-    min-height: auto;
+  .oq-flashcard {
+    min-height: 18rem;
   }
 
-  .swatch-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .oq-flashcard__definition {
+    font-size: var(--oq-body-md);
   }
+}
 
-  .form-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .pattern-accordion {
-    min-height: auto;
-    display: grid;
-  }
-
-  .pattern-accordion__item {
-    min-width: 0;
-    min-height: 5rem;
-    border-right: 0;
-    border-bottom: 1px solid #30343a;
-    transition: min-height 500ms var(--oq-ease);
-  }
-
-  .pattern-accordion__item:last-child {
-    border-bottom: 0;
-  }
-
-  .pattern-accordion__item:hover,
-  .pattern-accordion__item[aria-expanded="true"] {
-    min-height: 24rem;
-  }
-
-  .pattern-accordion__label {
-    writing-mode: horizontal-tb;
-  }
-
-  .pattern-accordion__content {
+/* Small mobile */
+@media (max-width: 26.25rem) {
+  .oq-btn--mobile-full {
     width: 100%;
-    min-height: 24rem;
-    padding: var(--oq-space-6);
   }
 
-  .motion-layout {
-    grid-template-columns: 1fr;
-  }
-
-  .motion-copy {
-    position: static;
-  }
-
-  .stack-card {
-    min-height: 24rem;
-    top: calc(5.5rem + (var(--stack-index) * 0.75rem));
-  }
-
-  .stack-card__body {
-    grid-template-columns: 1fr;
-  }
-
-  .stack-card__number {
-    display: none;
-  }
-
-  .oq-footer__inner {
-    grid-template-columns: 1fr;
-    gap: var(--oq-space-8);
-  }
-
-  .oq-footer__base,
-  .product-header {
-    align-items: flex-start;
+  .oq-cluster--mobile-stack {
+    align-items: stretch;
     flex-direction: column;
   }
 
-  .course-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .course-grid > :nth-child(n) {
-    grid-column: auto;
-  }
-
-  .product-main {
-    width: 100%;
-    min-width: 0;
-    padding-inline: var(--oq-gutter);
-  }
-
-  .product-main .oq-table-wrap {
-    max-width: calc(100vw - (var(--oq-gutter) * 2));
-  }
-}
-
-@media (max-width: 420px) {
-  .product-page .oq-nav__brand span:last-child {
+  .oq-nav__brand span:last-child {
     display: none;
   }
 
-  .product-page .oq-nav__actions {
-    margin-left: auto;
-  }
-
-  .hero__actions,
-  .hero__actions .oq-btn {
-    width: 100%;
-  }
-
-  .hero-token--two {
-    left: 31%;
-  }
-
-  .component-row .oq-btn:not(.oq-btn--icon) {
-    flex: 1 1 auto;
-  }
-
-  .oq-modal__footer {
-    flex-direction: column-reverse;
-  }
-
-  .oq-modal__footer .oq-btn {
-    width: 100%;
+  .oq-flashcard {
+    min-height: 16rem;
   }
 }
 
-@media (min-width: 1440px) {
-  :root {
-    --oq-container: 76rem;
-    --oq-container-wide: 86rem;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .marquee__track,
-  .final-cta::before {
-    animation: none;
+@media (hover: none) {
+  .oq-flashcard:hover .oq-flashcard__inner {
+    transform: none;
   }
 
-  .marquee__track {
-    flex-wrap: wrap;
-    width: 100%;
-  }
-
-  .marquee__group[aria-hidden="true"] {
-    display: none;
+  .oq-flashcard.is-flipped .oq-flashcard__inner,
+  .oq-flashcard[data-flipped="true"] .oq-flashcard__inner {
+    transform: rotateY(180deg);
   }
 }
