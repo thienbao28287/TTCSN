@@ -1,0 +1,14 @@
+{
+  "system": {
+    "name": "OpenQuiz DS",
+    "version": "1.0.0",
+    "defaultTheme": "light",
+    "breakpoints": [375, 768, 1024, 1280, 1440]
+  },
+  "courses": [
+    { "title": "Everyday English", "topic": "Speaking and vocabulary", "progress": 72, "status": "Continue", "accentToken": "--oq-color-green-200" },
+    { "title": "Grammar Lab", "topic": "Tenses and sentence form", "progress": 48, "status": "Practice", "accentToken": "--oq-color-blue-500" },
+    { "title": "Listening Room", "topic": "Short conversations", "progress": 86, "status": "Review", "accentToken": "--oq-color-blue-600" },
+    { "title": "Word Builder", "topic": "High-frequency vocabulary", "progress": 31, "status": "Continue", "accentToken": "--oq-color-amber-100" }
+  ]
+}

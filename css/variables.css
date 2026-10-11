@@ -1,0 +1,168 @@
+:root {
+  color-scheme: light;
+
+  --oq-font-display: "Cabinet Grotesk", "Avenir Next", "Segoe UI", sans-serif;
+  --oq-font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  --oq-color-black: #000000;
+  --oq-color-white: #ffffff;
+  --oq-color-slate-950: #0f1729;
+  --oq-color-slate-900: #1a1a1a;
+  --oq-color-slate-800: #212529;
+  --oq-color-slate-600: #475569;
+  --oq-color-slate-400: #94a3b8;
+  --oq-color-slate-200: #dbe0e8;
+  --oq-color-slate-100: #eaecf0;
+  --oq-color-slate-50: #f6f7f9;
+  --oq-color-blue-600: #2563eb;
+  --oq-color-blue-500: #3b82f6;
+  --oq-color-blue-700: #1d4ed8;
+  --oq-color-green-800: #047857;
+  --oq-color-green-600: #059669;
+  --oq-color-green-500: #10b981;
+  --oq-color-green-200: #a7f3d0;
+  --oq-color-red-700: #b42334;
+  --oq-color-red-600: #dc3545;
+  --oq-color-amber-700: #9a6700;
+  --oq-color-amber-100: #fff3c4;
+
+  --oq-bg: #ffffff;
+  --oq-bg-subtle: #f6f7f9;
+  --oq-bg-muted: #eaecf0;
+  --oq-surface: rgba(255, 255, 255, 0.94);
+  --oq-surface-solid: #ffffff;
+  --oq-surface-raised: #ffffff;
+  --oq-surface-inverse: #17191c;
+  --oq-text: #0f1729;
+  --oq-text-body: #1a1a1a;
+  --oq-text-muted: #475569;
+  --oq-text-inverse: #ffffff;
+  --oq-border: #dbe0e8;
+  --oq-border-strong: #a8b1bf;
+  --oq-primary: #000000;
+  --oq-primary-hover: #292929;
+  --oq-primary-text: #ffffff;
+  --oq-focus: #2563eb;
+  --oq-success: #047857;
+  --oq-success-bg: #e7f8f1;
+  --oq-error: #b42334;
+  --oq-error-bg: #fff0f1;
+  --oq-warning: #7a5300;
+  --oq-warning-bg: #fff3c4;
+  --oq-info: #1d4ed8;
+  --oq-info-bg: #eaf1ff;
+  --oq-overlay: rgba(8, 12, 20, 0.64);
+  --oq-gradient-light: linear-gradient(135deg, #f6f7f9 0%, #ffffff 48%, #eaecf0 100%);
+  --oq-gradient-dark: linear-gradient(135deg, #09090b 0%, #18181b 52%, #022c22 100%);
+
+  --oq-space-1: 0.25rem;
+  --oq-space-2: 0.5rem;
+  --oq-space-3: 0.75rem;
+  --oq-space-4: 1rem;
+  --oq-space-5: 1.25rem;
+  --oq-space-6: 1.5rem;
+  --oq-space-7: 1.75rem;
+  --oq-space-8: 2rem;
+  --oq-space-10: 2.5rem;
+  --oq-space-12: 3rem;
+  --oq-space-16: 4rem;
+  --oq-space-20: 5rem;
+  --oq-space-24: 6rem;
+  --oq-space-32: 8rem;
+  --oq-space-40: 10rem;
+
+  --oq-radius-none: 0;
+  --oq-radius-xs: 0.375rem;
+  --oq-radius-sm: 0.5rem;
+  --oq-radius-md: 0.625rem;
+  --oq-radius-lg: 0.75rem;
+  --oq-radius-xl: 0.875rem;
+  --oq-radius-2xl: 1.5rem;
+  --oq-radius-3xl: 2rem;
+  --oq-radius-full: 9999px;
+
+  --oq-border-thin: 1px;
+  --oq-border-medium: 2px;
+  --oq-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --oq-shadow-md: 0 2px 4px rgba(0, 0, 0, 0.075);
+  --oq-shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --oq-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  --oq-shadow-focus: 0 0 0 3px rgba(37, 99, 235, 0.28);
+
+  --oq-display-lg: clamp(3rem, 6vw, 5.75rem);
+  --oq-display-md: clamp(2.5rem, 5vw, 4.5rem);
+  --oq-heading-xxl: clamp(2rem, 3.2vw, 3.25rem);
+  --oq-heading-xl: 1.75rem;
+  --oq-heading-lg: 1.5rem;
+  --oq-heading-md: 1.25rem;
+  --oq-heading-sm: 1.125rem;
+  --oq-body-xl: 1.25rem;
+  --oq-body-lg: 1.125rem;
+  --oq-body-md: 1rem;
+  --oq-body-sm: 0.875rem;
+  --oq-caption: 0.75rem;
+
+  --oq-leading-display: 0.98;
+  --oq-leading-heading: 1.2;
+  --oq-leading-body: 1.7;
+  --oq-leading-compact: 1.4;
+
+  --oq-container-narrow: 56rem;
+  --oq-container: 70rem;
+  --oq-container-wide: 80rem;
+  --oq-gutter: clamp(1rem, 3vw, 2.5rem);
+
+  --oq-duration-fast: 150ms;
+  --oq-duration-base: 240ms;
+  --oq-duration-slow: 700ms;
+  --oq-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --oq-z-dropdown: 40;
+  --oq-z-sticky: 80;
+  --oq-z-modal: 1020;
+  --oq-z-toast: 1100;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --oq-bg: #0f0f10;
+  --oq-bg-subtle: #171719;
+  --oq-bg-muted: #202023;
+  --oq-surface: rgba(29, 29, 30, 0.94);
+  --oq-surface-solid: #1d1d1e;
+  --oq-surface-raised: #29292a;
+  --oq-surface-inverse: #f5f5f5;
+  --oq-text: #f5f5f5;
+  --oq-text-body: #e4e4e7;
+  --oq-text-muted: #a8a8b0;
+  --oq-text-inverse: #0b0b0c;
+  --oq-border: #3d3d42;
+  --oq-border-strong: #606068;
+  --oq-primary: #f5f5f5;
+  --oq-primary-hover: #d8d8dc;
+  --oq-primary-text: #0b0b0c;
+  --oq-focus: #76a3ff;
+  --oq-success: #5ee5b0;
+  --oq-success-bg: #0c3328;
+  --oq-error: #ff8793;
+  --oq-error-bg: #3d171c;
+  --oq-warning: #ffd977;
+  --oq-warning-bg: #382a0b;
+  --oq-info: #9ab9ff;
+  --oq-info-bg: #14254b;
+  --oq-overlay: rgba(0, 0, 0, 0.78);
+  --oq-gradient-light: linear-gradient(135deg, #171719 0%, #0f0f10 48%, #202023 100%);
+  --oq-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.28);
+  --oq-shadow-md: 0 2px 6px rgba(0, 0, 0, 0.32);
+  --oq-shadow-lg: 0 10px 28px rgba(0, 0, 0, 0.36);
+  --oq-shadow-xl: 0 24px 48px rgba(0, 0, 0, 0.48);
+  --oq-shadow-focus: 0 0 0 3px rgba(118, 163, 255, 0.34);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --oq-duration-fast: 0.01ms;
+    --oq-duration-base: 0.01ms;
+    --oq-duration-slow: 0.01ms;
+  }
+}
