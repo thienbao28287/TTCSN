@@ -29,7 +29,6 @@
     background: var(--oq-surface-solid);
     border: 1px solid var(--oq-border);
     border-radius: var(--oq-radius-xl);
-    box-shadow: var(--oq-shadow-xl);
     opacity: 0;
     transform: translateY(-0.75rem);
     transition:
@@ -828,8 +827,205 @@
   .oq-quiz,
   .oq-quiz__progress span,
   .oq-quiz-option,
-  .oq-quiz-lesson-card,
-  .oq-quiz-lesson-card__action .oq-icon {
+  .oq-quiz-lesson-card {
     transition: none;
+  }
+}
+
+/* Statistics: medium desktop and tablet */
+@media (max-width: 79.999rem) and (min-width: 48rem) {
+  .oq-statistics {
+    padding-inline: var(--oq-space-6);
+  }
+}
+
+@media (max-width: 64rem) and (min-width: 48rem) {
+  .oq-statistics__workspace {
+    padding-top: var(--oq-space-10);
+  }
+
+  .oq-lesson-progress,
+  .oq-course-overview {
+    grid-column: 1 / -1;
+  }
+
+  .oq-course-overview__content {
+    grid-template-columns: auto minmax(12rem, 1fr);
+    justify-content: start;
+  }
+
+  .oq-course-overview__cta {
+    width: auto;
+    min-width: 13rem;
+    align-self: flex-start;
+  }
+}
+
+/* Statistics: mobile */
+@media (max-width: 47.999rem) {
+  .oq-statistics,
+  .oq-app-shell[data-sidebar-collapsed="true"] .oq-statistics {
+    margin-left: 0;
+    padding: var(--oq-space-4) var(--oq-gutter) var(--oq-space-8);
+  }
+
+  .oq-statistics__mobile-menu {
+    display: inline-flex;
+    flex: 0 0 auto;
+  }
+
+  .oq-statistics__breadcrumb {
+    font-size: var(--oq-caption);
+  }
+
+  .oq-statistics__breadcrumb > span:nth-of-type(2),
+  .oq-statistics__breadcrumb > span:nth-of-type(3),
+  .oq-statistics__breadcrumb [data-course-title] {
+    display: none;
+  }
+
+  .oq-statistics__workspace {
+    padding-top: var(--oq-space-8);
+  }
+
+  .oq-statistics__intro {
+    display: grid;
+    align-items: start;
+    gap: var(--oq-space-5);
+  }
+
+  .oq-statistics__intro h1 {
+    font-size: clamp(2.25rem, 11vw, 3.5rem);
+  }
+
+  .oq-statistics__intro > div > p {
+    font-size: var(--oq-body-md);
+  }
+
+  .oq-statistics__course {
+    max-width: none;
+    text-align: left;
+  }
+
+  .oq-statistics__analytics {
+    grid-template-columns: 1fr;
+  }
+
+  .oq-lesson-progress,
+  .oq-course-overview {
+    grid-column: 1;
+  }
+
+  .oq-stat-panel {
+    padding: var(--oq-space-5);
+  }
+
+  .oq-stat-panel__header {
+    display: grid;
+  }
+
+  .oq-lesson-progress__item {
+    grid-template-columns: 1fr;
+    gap: var(--oq-space-4);
+  }
+
+  .oq-course-overview__content {
+    grid-template-columns: auto minmax(7rem, 1fr);
+    justify-content: start;
+  }
+
+  .oq-course-overview__ring {
+    width: 8rem;
+  }
+
+  .oq-course-overview__ring::after {
+    width: 5.9rem;
+  }
+
+  .oq-activity-list__item {
+    grid-template-columns: 1rem minmax(0, 1fr) auto;
+  }
+}
+
+/* Statistics: narrow phones */
+@media (max-width: 26.25rem) {
+  .oq-statistics {
+    padding-inline: var(--oq-space-4);
+  }
+
+  .oq-lesson-progress__legend {
+    flex-wrap: wrap;
+  }
+
+  .oq-progress-row {
+    grid-template-columns: 3.8rem minmax(4rem, 1fr) 3.7rem;
+    gap: var(--oq-space-2);
+  }
+
+  .oq-course-overview__content {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+
+  .oq-course-overview__details {
+    width: 100%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .oq-course-overview__details dd {
+    margin-left: 0;
+  }
+
+  .oq-activity-list__item {
+    grid-template-columns: 1rem minmax(0, 1fr);
+  }
+
+  .oq-activity-list time {
+    grid-column: 2;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .oq-statistics,
+  .oq-progress-row__fill,
+  .oq-course-overview__cta .oq-icon {
+    transition: none;
+  }
+}
+
+/* Quizlet-inspired responsive refinements */
+@media (max-width: 47.999rem) {
+  [data-sidebar-mount],
+  .oq-app-shell[data-sidebar-collapsed="true"] [data-sidebar-mount] {
+    width: min(17rem, 88vw);
+  }
+
+  .oq-intro__meta {
+    width: min(100%, 25rem);
+    padding: var(--oq-space-2);
+    border-radius: var(--oq-radius-lg);
+  }
+
+  .oq-intro__meta-item {
+    min-height: 4.25rem;
+    padding-inline: var(--oq-space-2);
+  }
+
+  .oq-intro__meta-icon {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .oq-study,
+  .oq-quiz,
+  .oq-statistics {
+    padding-top: var(--oq-space-3);
+  }
+
+  .oq-study-card,
+  .oq-quiz-question,
+  .oq-stat-panel,
+  .oq-quiz-lesson-card {
+    border-radius: var(--oq-radius-lg);
   }
 }

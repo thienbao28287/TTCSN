@@ -2,14 +2,12 @@ import { initSidebar } from "./sidebar.js";
 
 const MOCK_DATA_URL = new URL("../mockData/mockdata.json", import.meta.url);
 const USER_STATE_KEY = "openquiz-user-state";
-const THEME_KEY = "oq-theme";
 
 const elements = {
   workspace: document.querySelector("[data-study-workspace]"),
   error: document.querySelector("[data-study-error]"),
   storageWarning: document.querySelector("[data-storage-warning]"),
   sidebarMount: document.querySelector("[data-sidebar-mount]"),
-  themeToggle: document.querySelector("[data-theme-toggle]"),
   courseTitle: document.querySelector("[data-course-title]"),
   lessonOrder: document.querySelector("[data-lesson-order]"),
   lessonTitle: document.querySelector("[data-lesson-title]"),
@@ -96,44 +94,11 @@ function saveUserState() {
   }
 }
 
-function readTheme() {
-  try {
-    const savedTheme = localStorage.getItem(THEME_KEY);
-    return savedTheme === "dark" || savedTheme === "light" ? savedTheme : "light";
-  } catch {
-    return "light";
-  }
-}
-
-function applyTheme(theme) {
-  const isDark = theme === "dark";
-  document.documentElement.dataset.theme = theme;
-  elements.themeToggle.setAttribute("aria-pressed", String(isDark));
-  elements.themeToggle.setAttribute(
-    "aria-label",
-    isDark ? "Chuyển sang giao diện sáng" : "Chuyển sang giao diện tối",
-  );
-}
-
-function initTheme() {
-  applyTheme(readTheme());
-  elements.themeToggle.addEventListener("click", () => {
-    const nextTheme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
-    applyTheme(nextTheme);
-    try {
-      localStorage.setItem(THEME_KEY, nextTheme);
-    } catch {
-      return;
-    }
-  });
-}
-
 async function loadDatabase() {
   const response = await fetch(MOCK_DATA_URL);
   if (!response.ok) {
     throw new Error(`Không thể tải mock data: ${response.status}`);
   }
-
   const data = await response.json();
   if (
     !Array.isArray(data.courses) ||
@@ -143,7 +108,6 @@ async function loadDatabase() {
   ) {
     throw new Error("Mock data không đúng cấu trúc yêu cầu.");
   }
-
   return data;
 }
 
@@ -156,7 +120,9 @@ function findLesson(lessonId) {
 }
 
 function getOrCreateProgress(lessonId) {
-  let progress = userState.lessonProgress.find((item) => item.lessonId === lessonId);
+  let progress = userState.lessonProgress.find(
+    (item) => item.lessonId === lessonId,
+  );
 
   if (!progress) {
     progress = {
@@ -219,7 +185,10 @@ function updateRatingButtons(cardId) {
 
 function renderCard() {
   const total = currentCards.length;
-  const index = Math.min(Math.max(Number(currentProgress.currentFlashcardIndex) || 0, 0), total - 1);
+  const index = Math.min(
+    Math.max(Number(currentProgress.currentFlashcardIndex) || 0, 0),
+    total - 1,
+  );
   const card = currentCards[index];
 
   currentProgress.currentFlashcardIndex = index;
@@ -239,7 +208,9 @@ function renderCard() {
 }
 
 function renderLesson() {
-  currentCourse = database.courses.find((course) => course.id === currentLesson.courseId);
+  currentCourse = database.courses.find(
+    (course) => course.id === currentLesson.courseId,
+  );
   currentCards = currentLesson.flashcardIds
     .map((cardId) => database.flashcards.find((card) => card.id === cardId))
     .filter(Boolean);
@@ -292,7 +263,9 @@ function selectLesson(lessonId, { updateHistory = true } = {}) {
       updateUrl(lessonId);
     }
   } catch (error) {
-    setError(error instanceof Error ? error.message : "Không thể hiển thị bài học.");
+    setError(
+      error instanceof Error ? error.message : "Không thể hiển thị bài học.",
+    );
   }
 }
 
@@ -350,7 +323,8 @@ function showResult(trigger) {
     percentage === 100
       ? "Tuyệt vời! Bạn đã ghi nhớ toàn bộ thẻ trong bài học này."
       : `Bạn còn ${currentCards.length - knownCount} thẻ nên ôn lại trước khi làm bài kiểm tra.`;
-  lastModalTrigger = trigger instanceof HTMLElement ? trigger : elements.flipButton;
+  lastModalTrigger =
+    trigger instanceof HTMLElement ? trigger : elements.flipButton;
 
   if (typeof elements.resultDialog.showModal === "function") {
     elements.resultDialog.showModal();
@@ -361,7 +335,10 @@ function showResult(trigger) {
 }
 
 function closeResult() {
-  if (typeof elements.resultDialog.close === "function" && elements.resultDialog.open) {
+  if (
+    typeof elements.resultDialog.close === "function" &&
+    elements.resultDialog.open
+  ) {
     elements.resultDialog.close();
   } else {
     elements.resultDialog.removeAttribute("open");
@@ -378,9 +355,8 @@ function rateCurrentCard(rating, trigger) {
   currentProgress.knownFlashcardIds = currentProgress.knownFlashcardIds.filter(
     (cardId) => cardId !== card.id,
   );
-  currentProgress.reviewFlashcardIds = currentProgress.reviewFlashcardIds.filter(
-    (cardId) => cardId !== card.id,
-  );
+  currentProgress.reviewFlashcardIds =
+    currentProgress.reviewFlashcardIds.filter((cardId) => cardId !== card.id);
 
   if (rating === "known") {
     currentProgress.knownFlashcardIds.push(card.id);
@@ -392,7 +368,9 @@ function rateCurrentCard(rating, trigger) {
   saveUserState();
   updateRatingButtons(card.id);
 
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const reduceMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
   const delay = reduceMotion ? 0 : 220;
   isTransitioning = true;
   updateRatingButtons(card.id);
@@ -410,7 +388,9 @@ function rateCurrentCard(rating, trigger) {
       return;
     }
 
-    const firstUnratedIndex = currentCards.findIndex((item) => !isCardRated(item.id));
+    const firstUnratedIndex = currentCards.findIndex(
+      (item) => !isCardRated(item.id),
+    );
     goToCard(firstUnratedIndex >= 0 ? firstUnratedIndex : index);
   }, delay);
 }
@@ -437,7 +417,9 @@ function bindStudyEvents() {
     goToCard(currentProgress.currentFlashcardIndex + 1),
   );
   elements.ratingButtons.forEach((button) => {
-    button.addEventListener("click", () => rateCurrentCard(button.dataset.cardRating, button));
+    button.addEventListener("click", () =>
+      rateCurrentCard(button.dataset.cardRating, button),
+    );
   });
   elements.resultClose.addEventListener("click", closeResult);
   elements.restart.addEventListener("click", restartLesson);
@@ -458,7 +440,6 @@ function bindStudyEvents() {
 }
 
 async function init() {
-  initTheme();
   elements.workspace.setAttribute("aria-busy", "true");
 
   try {
@@ -500,7 +481,11 @@ async function init() {
       elements.storageWarning.hidden = false;
     }
   } catch (error) {
-    setError(error instanceof Error ? error.message : "Không thể khởi tạo trang Study.");
+    setError(
+      error instanceof Error
+        ? error.message
+        : "Không thể khởi tạo trang Study.",
+    );
   } finally {
     elements.workspace.removeAttribute("aria-busy");
   }

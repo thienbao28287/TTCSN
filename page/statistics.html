@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Theo dõi tiến độ học tập, kết quả kiểm tra và hoạt động gần đây trong OpenQuiz."
+    />
+    <title>Thống kê học tập | OpenQuiz</title>
+    <link rel="stylesheet" href="../css/reset.css" />
+    <link rel="stylesheet" href="../css/variables.css" />
+    <link rel="stylesheet" href="../css/global.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/responsive.css" />
+  </head>
+  <body class="oq-statistics-page">
+    <a class="oq-skip-link" href="#statistics-content"
+      >Đi tới nội dung thống kê</a
+    >
+
+    <div
+      class="oq-app-shell"
+      data-sidebar-collapsed="false"
+      data-sidebar-open="false"
+    >
+      <div data-sidebar-mount></div>
+      <button
+        class="oq-sidebar-backdrop"
+        type="button"
+        aria-label="Đóng thanh điều hướng"
+        data-sidebar-backdrop
+        hidden
+      ></button>
+
+      <main id="statistics-content" class="oq-statistics" tabindex="-1">
+        <header class="oq-statistics__topbar">
+          <div class="oq-statistics__topbar-start">
+            <button
+              class="oq-btn oq-btn--icon oq-btn--flat oq-statistics__mobile-menu"
+              type="button"
+              aria-label="Mở thanh điều hướng"
+              aria-expanded="false"
+              data-mobile-sidebar-open
+            >
+              <span class="oq-icon oq-icon--menu" aria-hidden="true"></span>
+            </button>
+
+            <nav
+              class="oq-statistics__breadcrumb"
+              aria-label="Đường dẫn thống kê"
+            >
+              <a href="./intro.html" aria-label="Về trang giới thiệu">
+                <span class="oq-icon oq-icon--home" aria-hidden="true"></span>
+              </a>
+              <span aria-hidden="true">/</span>
+              <span data-course-title>Lập trình hướng đối tượng</span>
+              <span aria-hidden="true">/</span>
+              <strong>Thống kê</strong>
+            </nav>
+          </div>
+        </header>
+
+        <div
+          class="oq-statistics__notice oq-statistics__notice--warning"
+          role="status"
+          data-storage-warning
+          hidden
+        >
+          Không thể đọc tiến độ đã lưu. Dashboard đang sử dụng dữ liệu mặc định.
+        </div>
+
+        <div
+          class="oq-statistics__notice oq-statistics__notice--error"
+          role="alert"
+          data-statistics-error
+          hidden
+        >
+          Không thể tải dữ liệu thống kê. Hãy mở dự án bằng máy chủ HTTP và thử
+          lại.
+        </div>
+
+        <div class="oq-statistics__workspace" data-statistics-workspace hidden>
+          <header class="oq-statistics__intro">
+            <div>
+              <h1>Thống kê học tập</h1>
+              <p>Theo dõi tiến độ và kết quả của bạn.</p>
+            </div>
+            <p class="oq-statistics__course">
+              <span>Khóa học</span>
+              <strong data-course-heading>Lập trình hướng đối tượng</strong>
+            </p>
+          </header>
+
+          <div class="oq-statistics__analytics">
+            <section
+              class="oq-stat-panel oq-lesson-progress"
+              aria-labelledby="lesson-progress-title"
+            >
+              <header class="oq-stat-panel__header">
+                <div>
+                  <h2 id="lesson-progress-title">Tiến độ từng bài</h2>
+                  <p>So sánh tiến độ học thẻ và kết quả quiz gần nhất.</p>
+                </div>
+                <div
+                  class="oq-lesson-progress__legend"
+                  aria-label="Chú thích biểu đồ"
+                >
+                  <span
+                    ><i class="is-study" aria-hidden="true"></i>Học thẻ</span
+                  >
+                  <span><i class="is-quiz" aria-hidden="true"></i>Quiz</span>
+                </div>
+              </header>
+              <div
+                class="oq-lesson-progress__list"
+                data-lesson-progress-list
+              ></div>
+              <p class="oq-statistics__empty" data-progress-empty hidden>
+                Khóa học này chưa có bài học để thống kê.
+              </p>
+            </section>
+
+            <section
+              class="oq-stat-panel oq-course-overview"
+              aria-labelledby="course-overview-title"
+            >
+              <header class="oq-stat-panel__header">
+                <div>
+                  <h2 id="course-overview-title">Tổng quan khóa học</h2>
+                  <p>Mức độ hoàn thành hiện tại.</p>
+                </div>
+              </header>
+
+              <div class="oq-course-overview__content">
+                <div
+                  class="oq-course-overview__ring"
+                  role="progressbar"
+                  aria-label="Tiến độ hoàn thành khóa học"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                  aria-valuenow="0"
+                  data-course-progress
+                >
+                  <span data-course-percentage>0%</span>
+                </div>
+
+                <dl class="oq-course-overview__details">
+                  <div>
+                    <dt>
+                      <span class="is-complete" aria-hidden="true"></span>Hoàn
+                      thành
+                    </dt>
+                    <dd><strong data-course-completed>0</strong> bài</dd>
+                  </div>
+                  <div>
+                    <dt>
+                      <span class="is-remaining" aria-hidden="true"></span>Đang
+                      học
+                    </dt>
+                    <dd><strong data-course-remaining>0</strong> bài</dd>
+                  </div>
+                </dl>
+              </div>
+
+              <a
+                class="oq-btn oq-btn--primary oq-btn--flat oq-course-overview__cta"
+                href="./study.html"
+                data-continue-learning
+              >
+                Tiếp tục học
+                <span class="oq-icon oq-icon--arrow" aria-hidden="true"></span>
+              </a>
+            </section>
+          </div>
+
+          <section
+            class="oq-stat-panel oq-activity"
+            aria-labelledby="activity-title"
+          >
+            <header class="oq-stat-panel__header">
+              <div>
+                <h2 id="activity-title">Hoạt động gần đây</h2>
+                <p>Những cập nhật mới nhất trong quá trình học.</p>
+              </div>
+            </header>
+            <ol class="oq-activity-list" data-activity-list></ol>
+            <p class="oq-statistics__empty" data-activity-empty hidden>
+              Chưa có hoạt động học tập nào được ghi nhận.
+            </p>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <noscript>
+      <p class="oq-noscript">
+        Trang thống kê cần JavaScript để tổng hợp dữ liệu học tập.
+      </p>
+    </noscript>
+
+    <script type="module" src="../js/statistics.js"></script>
+  </body>
+</html>

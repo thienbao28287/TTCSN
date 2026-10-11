@@ -2,7 +2,6 @@ import { initSidebar } from "./sidebar.js";
 
 const MOCK_DATA_URL = new URL("../mockData/mockdata.json", import.meta.url);
 const USER_STATE_KEY = "openquiz-user-state";
-const THEME_KEY = "oq-theme";
 
 const elements = {
   library: document.querySelector("[data-quiz-library]"),
@@ -12,7 +11,6 @@ const elements = {
   error: document.querySelector("[data-quiz-error]"),
   storageWarning: document.querySelector("[data-storage-warning]"),
   sidebarMount: document.querySelector("[data-sidebar-mount]"),
-  themeToggle: document.querySelector("[data-theme-toggle]"),
   courseTitle: document.querySelector("[data-course-title]"),
   lessonOrder: document.querySelector("[data-lesson-order]"),
   title: document.querySelector("[data-quiz-title]"),
@@ -103,38 +101,6 @@ function saveUserState() {
     canPersistState = false;
     elements.storageWarning.hidden = false;
   }
-}
-
-function readTheme() {
-  try {
-    const saved = localStorage.getItem(THEME_KEY);
-    return saved === "dark" || saved === "light" ? saved : "light";
-  } catch {
-    return "light";
-  }
-}
-
-function applyTheme(theme) {
-  const isDark = theme === "dark";
-  document.documentElement.dataset.theme = theme;
-  elements.themeToggle.setAttribute("aria-pressed", String(isDark));
-  elements.themeToggle.setAttribute(
-    "aria-label",
-    isDark ? "Chuyển sang giao diện sáng" : "Chuyển sang giao diện tối",
-  );
-}
-
-function initTheme() {
-  applyTheme(readTheme());
-  elements.themeToggle.addEventListener("click", () => {
-    const nextTheme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
-    applyTheme(nextTheme);
-    try {
-      localStorage.setItem(THEME_KEY, nextTheme);
-    } catch {
-      return;
-    }
-  });
 }
 
 async function loadDatabase() {
@@ -236,8 +202,6 @@ function createLibraryCard(lesson) {
   const latestAttempt = quiz ? getLatestAttempt(quiz.id) : null;
   const card = document.createElement(quiz ? "a" : "article");
   const top = document.createElement("div");
-  const identity = document.createElement("div");
-  const icon = document.createElement("span");
   const lessonLabel = document.createElement("span");
   const status = document.createElement("span");
   const title = document.createElement("h2");
@@ -248,14 +212,10 @@ function createLibraryCard(lesson) {
   const footer = document.createElement("div");
   const score = document.createElement("span");
   const action = document.createElement("span");
-  const arrow = document.createElement("span");
 
   card.className = "oq-quiz-lesson-card";
   card.dataset.lessonId = lesson.id;
   top.className = "oq-quiz-lesson-card__top";
-  identity.className = "oq-quiz-lesson-card__identity";
-  icon.className = "oq-quiz-lesson-card__icon";
-  icon.innerHTML = '<span class="oq-icon oq-icon--quiz" aria-hidden="true"></span>';
   lessonLabel.className = "oq-quiz-lesson-card__lesson";
   lessonLabel.textContent = `Bài ${lesson.order}`;
   status.className = "oq-quiz-lesson-card__status";
@@ -266,11 +226,8 @@ function createLibraryCard(lesson) {
   footer.className = "oq-quiz-lesson-card__footer";
   score.className = "oq-quiz-lesson-card__score";
   action.className = "oq-quiz-lesson-card__action";
-  arrow.className = "oq-icon oq-icon--arrow";
-  arrow.setAttribute("aria-hidden", "true");
 
-  identity.append(icon, lessonLabel);
-  top.append(identity, status);
+  top.append(lessonLabel, status);
 
   if (!quiz) {
     card.classList.add("is-disabled");
@@ -304,7 +261,6 @@ function createLibraryCard(lesson) {
       action.textContent = "Làm lại";
     }
 
-    action.append(arrow);
     card.addEventListener("click", (event) => {
       if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey) {
         return;
@@ -652,7 +608,6 @@ function bindEvents() {
 }
 
 async function init() {
-  initTheme();
   elements.library.setAttribute("aria-busy", "true");
   elements.workspace.setAttribute("aria-busy", "true");
 

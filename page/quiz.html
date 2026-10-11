@@ -1,23 +1,27 @@
 <!doctype html>
 <html lang="vi">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
       content="Kiểm tra kiến thức bài học bằng câu hỏi trắc nghiệm tương tác."
-    >
+    />
     <title>Kiểm tra | OpenQuiz</title>
-    <link rel="stylesheet" href="../css/reset.css">
-    <link rel="stylesheet" href="../css/variables.css">
-    <link rel="stylesheet" href="../css/global.css">
-    <link rel="stylesheet" href="../css/components.css">
-    <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="stylesheet" href="../css/reset.css" />
+    <link rel="stylesheet" href="../css/variables.css" />
+    <link rel="stylesheet" href="../css/global.css" />
+    <link rel="stylesheet" href="../css/components.css" />
+    <link rel="stylesheet" href="../css/responsive.css" />
   </head>
   <body class="oq-quiz-page">
     <a class="oq-skip-link" href="#quiz-content">Đi tới câu hỏi</a>
 
-    <div class="oq-app-shell" data-sidebar-collapsed="false" data-sidebar-open="false">
+    <div
+      class="oq-app-shell"
+      data-sidebar-collapsed="false"
+      data-sidebar-open="false"
+    >
       <div data-sidebar-mount></div>
       <button
         class="oq-sidebar-backdrop"
@@ -40,7 +44,10 @@
               <span class="oq-icon oq-icon--menu" aria-hidden="true"></span>
             </button>
 
-            <nav class="oq-quiz__breadcrumb" aria-label="Đường dẫn bài kiểm tra">
+            <nav
+              class="oq-quiz__breadcrumb"
+              aria-label="Đường dẫn bài kiểm tra"
+            >
               <a href="./intro.html" aria-label="Về trang giới thiệu">
                 <span class="oq-icon oq-icon--home" aria-hidden="true"></span>
               </a>
@@ -53,15 +60,6 @@
 
           <div class="oq-quiz__topbar-actions">
             <button
-              class="oq-btn oq-btn--icon oq-btn--flat oq-quiz__theme-toggle"
-              type="button"
-              aria-label="Chuyển sang giao diện tối"
-              aria-pressed="false"
-              data-theme-toggle
-            >
-              <span class="oq-icon oq-icon--settings" aria-hidden="true"></span>
-            </button>
-            <button
               class="oq-btn oq-btn--icon oq-btn--flat oq-quiz__exit"
               type="button"
               aria-label="Đóng bài kiểm tra và quay lại danh sách"
@@ -73,15 +71,32 @@
           </div>
         </header>
 
-        <div class="oq-quiz__notice oq-quiz__notice--warning" role="status" data-storage-warning hidden>
-          Kết quả chỉ được lưu trong phiên hiện tại vì trình duyệt không cho phép sử dụng bộ nhớ cục bộ.
+        <div
+          class="oq-quiz__notice oq-quiz__notice--warning"
+          role="status"
+          data-storage-warning
+          hidden
+        >
+          Kết quả chỉ được lưu trong phiên hiện tại vì trình duyệt không cho
+          phép sử dụng bộ nhớ cục bộ.
         </div>
 
-        <div class="oq-quiz__notice oq-quiz__notice--error" role="alert" data-quiz-error hidden>
-          Không thể tải dữ liệu bài kiểm tra. Hãy mở dự án bằng máy chủ HTTP và thử lại.
+        <div
+          class="oq-quiz__notice oq-quiz__notice--error"
+          role="alert"
+          data-quiz-error
+          hidden
+        >
+          Không thể tải dữ liệu bài kiểm tra. Hãy mở dự án bằng máy chủ HTTP và
+          thử lại.
         </div>
 
-        <section class="oq-quiz-library" aria-labelledby="quiz-library-title" data-quiz-library hidden>
+        <section
+          class="oq-quiz-library"
+          aria-labelledby="quiz-library-title"
+          data-quiz-library
+          hidden
+        >
           <header class="oq-quiz-library__header">
             <div>
               <p class="oq-quiz__eyebrow">Thư viện kiểm tra</p>
@@ -92,21 +107,30 @@
             </div>
             <p class="oq-quiz-library__count">
               <strong data-library-count>0</strong>
-            <span>bài học</span>
+              <span>bài học</span>
             </p>
           </header>
 
           <div class="oq-quiz-library__grid" data-quiz-library-grid></div>
         </section>
 
-        <section class="oq-quiz__workspace" aria-labelledby="quiz-title" data-quiz-workspace hidden>
+        <section
+          class="oq-quiz__workspace"
+          aria-labelledby="quiz-title"
+          data-quiz-workspace
+          hidden
+        >
           <header class="oq-quiz__heading">
             <div>
               <p class="oq-quiz__eyebrow">Bài kiểm tra</p>
               <h1 id="quiz-title" data-quiz-title>Trắc nghiệm phương thức</h1>
             </div>
             <div class="oq-quiz__status" aria-live="polite">
-              <strong><span data-question-position>1</span>/<span data-question-total>3</span></strong>
+              <strong
+                ><span data-question-position>1</span>/<span data-question-total
+                  >3</span
+                ></strong
+              >
               <span><span data-answered-count>0</span> câu đã trả lời</span>
             </div>
           </header>
@@ -125,15 +149,31 @@
 
           <article class="oq-quiz-question" data-question-card>
             <header class="oq-quiz-question__header">
-              <span class="oq-quiz-question__number" data-question-label>Câu 1</span>
+              <span class="oq-quiz-question__number" data-question-label
+                >Câu 1</span
+              >
               <span class="oq-quiz-question__type">Chọn một đáp án</span>
             </header>
-            <h2 class="oq-quiz-question__content" tabindex="-1" data-question-content></h2>
+            <h2
+              class="oq-quiz-question__content"
+              tabindex="-1"
+              data-question-content
+            ></h2>
           </article>
 
-          <form class="oq-quiz-options" aria-label="Các đáp án" data-quiz-options></form>
+          <form
+            class="oq-quiz-options"
+            aria-label="Các đáp án"
+            data-quiz-options
+          ></form>
 
-          <div class="oq-quiz-feedback" role="status" aria-live="polite" data-quiz-feedback hidden>
+          <div
+            class="oq-quiz-feedback"
+            role="status"
+            aria-live="polite"
+            data-quiz-feedback
+            hidden
+          >
             <strong data-feedback-title></strong>
             <p data-feedback-text></p>
           </div>
@@ -144,7 +184,10 @@
               type="button"
               data-question-previous
             >
-              <span class="oq-icon oq-icon--arrow-back" aria-hidden="true"></span>
+              <span
+                class="oq-icon oq-icon--arrow-back"
+                aria-hidden="true"
+              ></span>
               Trước
             </button>
 
@@ -161,7 +204,11 @@
       </main>
     </div>
 
-    <dialog class="oq-result-modal oq-quiz-result" aria-labelledby="quiz-result-title" data-result-dialog>
+    <dialog
+      class="oq-result-modal oq-quiz-result"
+      aria-labelledby="quiz-result-title"
+      data-result-dialog
+    >
       <div class="oq-result-modal__panel">
         <button
           class="oq-btn oq-btn--icon oq-btn--flat oq-result-modal__close"
@@ -175,14 +222,20 @@
         <span class="oq-result-modal__icon" aria-hidden="true">
           <span class="oq-icon oq-icon--quiz"></span>
         </span>
-        <p class="oq-result-modal__eyebrow" data-result-eyebrow>Hoàn thành kiểm tra</p>
+        <p class="oq-result-modal__eyebrow" data-result-eyebrow>
+          Hoàn thành kiểm tra
+        </p>
         <h2 id="quiz-result-title" data-result-title>Bạn đã hoàn thành</h2>
         <p class="oq-result-modal__description" data-result-message></p>
 
         <div class="oq-result-modal__stats">
           <div>
             <span>Số câu đúng</span>
-            <strong><span data-result-correct>0</span>/<span data-result-total>0</span></strong>
+            <strong
+              ><span data-result-correct>0</span>/<span data-result-total
+                >0</span
+              ></strong
+            >
           </div>
           <div>
             <span>Phần trăm</span>
@@ -191,11 +244,19 @@
         </div>
 
         <div class="oq-result-modal__actions">
-          <button class="oq-btn oq-btn--outline oq-btn--lg oq-btn--flat" type="button" data-quiz-restart>
+          <button
+            class="oq-btn oq-btn--outline oq-btn--lg oq-btn--flat"
+            type="button"
+            data-quiz-restart
+          >
             <span class="oq-icon oq-icon--replay" aria-hidden="true"></span>
             Làm lại
           </button>
-          <button class="oq-btn oq-btn--primary oq-btn--lg oq-btn--flat" type="button" data-review-answers>
+          <button
+            class="oq-btn oq-btn--primary oq-btn--lg oq-btn--flat"
+            type="button"
+            data-review-answers
+          >
             Xem đáp án
             <span class="oq-icon oq-icon--arrow" aria-hidden="true"></span>
           </button>
@@ -204,7 +265,9 @@
     </dialog>
 
     <noscript>
-      <p class="oq-noscript">Trang Quiz cần JavaScript để tải câu hỏi và chấm điểm.</p>
+      <p class="oq-noscript">
+        Trang Quiz cần JavaScript để tải câu hỏi và chấm điểm.
+      </p>
     </noscript>
     <script type="module" src="../js/quiz.js"></script>
   </body>

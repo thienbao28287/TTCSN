@@ -1,4 +1,7 @@
-const SIDEBAR_TEMPLATE_URL = new URL("../component/sidebar.html", import.meta.url);
+const SIDEBAR_TEMPLATE_URL = new URL(
+  "../component/sidebar.html",
+  import.meta.url,
+);
 const SIDEBAR_STORAGE_KEY = "openquiz-sidebar-collapsed";
 
 function readCollapsedPreference() {
@@ -24,7 +27,8 @@ export async function initSidebar({
   activeLessonId,
   activePage = "study",
   onLessonChange = () => {},
-}) {
+}) 
+{
   if (!(mount instanceof HTMLElement)) {
     throw new TypeError("Sidebar mount element is required.");
   }
@@ -214,14 +218,17 @@ export async function initSidebar({
   }
 
   toggle.addEventListener("click", handleToggle);
-  mobileOpenButton?.addEventListener("click", () => openDrawer(mobileOpenButton));
+  mobileOpenButton?.addEventListener("click", () =>
+    openDrawer(mobileOpenButton),
+  );
   backdrop.addEventListener("click", () => closeDrawer());
   document.addEventListener("keydown", handleDocumentKeydown);
   mobileQuery.addEventListener("change", syncResponsiveMode);
   compactQuery.addEventListener("change", syncResponsiveMode);
 
   lessonListToggle?.addEventListener("click", () => {
-    const isExpanded = lessonListToggle.getAttribute("aria-expanded") === "true";
+    const isExpanded =
+      lessonListToggle.getAttribute("aria-expanded") === "true";
     lessonListToggle.setAttribute("aria-expanded", String(!isExpanded));
     lessonList.hidden = isExpanded;
   });
