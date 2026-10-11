@@ -1,0 +1,279 @@
+{
+  "schemaVersion": 1,
+  "currentUserId": "user-001",
+  "users": [
+    {
+      "id": "user-001",
+      "name": "Nguyễn Văn A",
+      "avatar": null
+    }
+  ],
+  "courses": [
+    {
+      "id": "course-oop",
+      "title": "Lập trình hướng đối tượng",
+      "description": "Kiến thức nền tảng về lập trình hướng đối tượng.",
+      "lessonIds": ["lesson-class", "lesson-method"]
+    }
+  ],
+  "lessons": [
+    {
+      "id": "lesson-class",
+      "courseId": "course-oop",
+      "order": 1,
+      "title": "Lớp và đối tượng",
+      "description": "Tìm hiểu khái niệm lớp, đối tượng và thuộc tính.",
+      "durationMinutes": 12,
+      "difficulty": "Cơ bản",
+      "flashcardIds": ["card-class-01", "card-class-02"],
+      "quizId": "quiz-class"
+    },
+    {
+      "id": "lesson-method",
+      "courseId": "course-oop",
+      "order": 2,
+      "title": "Phương thức và hành vi",
+      "description": "Tìm hiểu cách đối tượng thực hiện hành vi thông qua phương thức.",
+      "durationMinutes": 15,
+      "difficulty": "Cơ bản",
+      "flashcardIds": ["card-method-01", "card-method-02", "card-method-03"],
+      "quizId": "quiz-method"
+    }
+  ],
+  "flashcards": [
+    {
+      "id": "card-class-01",
+      "lessonId": "lesson-class",
+      "front": "Lớp là gì?",
+      "back": "Lớp là một khuôn mẫu dùng để định nghĩa thuộc tính và hành vi chung cho các đối tượng.",
+      "example": "Lớp Student có thể chứa thuộc tính name và phương thức study()."
+    },
+    {
+      "id": "card-class-02",
+      "lessonId": "lesson-class",
+      "front": "Đối tượng là gì?",
+      "back": "Đối tượng là một thể hiện cụ thể được tạo ra từ một lớp.",
+      "example": "studentA là một đối tượng được tạo từ lớp Student."
+    },
+    {
+      "id": "card-method-01",
+      "lessonId": "lesson-method",
+      "front": "Phương thức là gì?",
+      "back": "Phương thức dùng để mô tả hành động hoặc hành vi mà đối tượng thuộc lớp đó có thể thực hiện.",
+      "example": "Phương thức study() mô tả hành động học của một sinh viên."
+    },
+    {
+      "id": "card-method-02",
+      "lessonId": "lesson-method",
+      "front": "Tham số của phương thức là gì?",
+      "back": "Tham số là dữ liệu đầu vào được truyền cho phương thức khi phương thức được gọi.",
+      "example": "setName(name) nhận name làm tham số."
+    },
+    {
+      "id": "card-method-03",
+      "lessonId": "lesson-method",
+      "front": "Giá trị trả về là gì?",
+      "back": "Giá trị trả về là kết quả mà phương thức gửi lại cho nơi đã gọi nó.",
+      "example": "getName() có thể trả về tên của đối tượng."
+    }
+  ],
+  "quizzes": [
+    {
+      "id": "quiz-class",
+      "lessonId": "lesson-class",
+      "title": "Trắc nghiệm lớp và đối tượng",
+      "passingPercentage": 70,
+      "questionIds": ["question-class-01"]
+    },
+    {
+      "id": "quiz-method",
+      "lessonId": "lesson-method",
+      "title": "Trắc nghiệm phương thức",
+      "passingPercentage": 70,
+      "questionIds": [
+        "question-method-01",
+        "question-method-02",
+        "question-method-03"
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "question-class-01",
+      "quizId": "quiz-class",
+      "content": "Đối tượng trong lập trình hướng đối tượng là gì?",
+      "options": [
+        {
+          "id": "option-class-01-a",
+          "label": "A",
+          "content": "Một thể hiện cụ thể của lớp"
+        },
+        {
+          "id": "option-class-01-b",
+          "label": "B",
+          "content": "Một kiểu dữ liệu nguyên thủy"
+        },
+        {
+          "id": "option-class-01-c",
+          "label": "C",
+          "content": "Một câu lệnh điều kiện"
+        },
+        {
+          "id": "option-class-01-d",
+          "label": "D",
+          "content": "Một vòng lặp"
+        }
+      ],
+      "correctOptionId": "option-class-01-a",
+      "explanation": "Đối tượng là một thể hiện cụ thể được khởi tạo từ lớp."
+    },
+    {
+      "id": "question-method-01",
+      "quizId": "quiz-method",
+      "content": "Phương thức trong lập trình hướng đối tượng được định nghĩa chính xác nhất là gì?",
+      "options": [
+        {
+          "id": "option-method-01-a",
+          "label": "A",
+          "content": "Các biến dùng để lưu trữ trạng thái hoặc thuộc tính của đối tượng"
+        },
+        {
+          "id": "option-method-01-b",
+          "label": "B",
+          "content": "Đại diện cho các hành vi, thao tác hoặc chức năng mà đối tượng có thể thực hiện"
+        },
+        {
+          "id": "option-method-01-c",
+          "label": "C",
+          "content": "Tên gọi khác của một lớp khi chưa được khởi tạo"
+        },
+        {
+          "id": "option-method-01-d",
+          "label": "D",
+          "content": "Cơ chế quản lý bộ nhớ tự động cho đối tượng"
+        }
+      ],
+      "correctOptionId": "option-method-01-b",
+      "explanation": "Phương thức mô tả hành vi hoặc chức năng mà một đối tượng có thể thực hiện."
+    },
+    {
+      "id": "question-method-02",
+      "quizId": "quiz-method",
+      "content": "Thành phần nào được truyền vào phương thức khi gọi phương thức?",
+      "options": [
+        {
+          "id": "option-method-02-a",
+          "label": "A",
+          "content": "Tham số"
+        },
+        {
+          "id": "option-method-02-b",
+          "label": "B",
+          "content": "Tên lớp"
+        },
+        {
+          "id": "option-method-02-c",
+          "label": "C",
+          "content": "Bộ nhớ đệm"
+        },
+        {
+          "id": "option-method-02-d",
+          "label": "D",
+          "content": "Trình biên dịch"
+        }
+      ],
+      "correctOptionId": "option-method-02-a",
+      "explanation": "Tham số cung cấp dữ liệu đầu vào cho phương thức."
+    },
+    {
+      "id": "question-method-03",
+      "quizId": "quiz-method",
+      "content": "Từ khóa nào thường được dùng để trả kết quả từ một phương thức?",
+      "options": [
+        {
+          "id": "option-method-03-a",
+          "label": "A",
+          "content": "break"
+        },
+        {
+          "id": "option-method-03-b",
+          "label": "B",
+          "content": "continue"
+        },
+        {
+          "id": "option-method-03-c",
+          "label": "C",
+          "content": "return"
+        },
+        {
+          "id": "option-method-03-d",
+          "label": "D",
+          "content": "import"
+        }
+      ],
+      "correctOptionId": "option-method-03-c",
+      "explanation": "Từ khóa return được dùng để trả kết quả về nơi gọi phương thức."
+    }
+  ],
+  "initialUserState": {
+    "activeCourseId": "course-oop",
+    "activeLessonId": "lesson-method",
+    "lessonProgress": [
+      {
+        "lessonId": "lesson-class",
+        "status": "completed",
+        "currentFlashcardIndex": 1,
+        "knownFlashcardIds": ["card-class-01", "card-class-02"],
+        "reviewFlashcardIds": [],
+        "completedAt": "2026-10-11T08:30:00+07:00"
+      },
+      {
+        "lessonId": "lesson-method",
+        "status": "in_progress",
+        "currentFlashcardIndex": 0,
+        "knownFlashcardIds": [],
+        "reviewFlashcardIds": [],
+        "completedAt": null
+      }
+    ],
+    "quizAttempts": [
+      {
+        "id": "attempt-001",
+        "quizId": "quiz-class",
+        "answers": [
+          {
+            "questionId": "question-class-01",
+            "selectedOptionId": "option-class-01-a"
+          }
+        ],
+        "correctCount": 1,
+        "totalQuestions": 1,
+        "percentage": 100,
+        "passed": true,
+        "durationSeconds": 35,
+        "completedAt": "2026-10-11T08:35:00+07:00"
+      }
+    ],
+    "activities": [
+      {
+        "id": "activity-001",
+        "type": "lesson_completed",
+        "lessonId": "lesson-class",
+        "createdAt": "2026-10-11T08:30:00+07:00"
+      },
+      {
+        "id": "activity-002",
+        "type": "quiz_completed",
+        "quizId": "quiz-class",
+        "attemptId": "attempt-001",
+        "createdAt": "2026-10-11T08:35:00+07:00"
+      },
+      {
+        "id": "activity-003",
+        "type": "lesson_started",
+        "lessonId": "lesson-method",
+        "createdAt": "2026-10-11T08:40:00+07:00"
+      }
+    ]
+  }
+}
