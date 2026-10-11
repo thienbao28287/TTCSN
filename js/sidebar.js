@@ -79,7 +79,8 @@ export async function initSidebar({
 
   function syncLessonLinks() {
     lessonList.querySelectorAll("[data-lesson-id]").forEach((button) => {
-      const isActive = button.dataset.lessonId === currentLessonId;
+      const isActive =
+        activePage === "study" && button.dataset.lessonId === currentLessonId;
       button.classList.toggle("is-active", isActive);
       button.setAttribute("aria-pressed", String(isActive));
       if (isActive) {
@@ -89,12 +90,8 @@ export async function initSidebar({
       }
     });
 
-    const query = currentLessonId
-      ? `?lesson=${encodeURIComponent(currentLessonId)}`
-      : "";
-
     if (quizLink) {
-      quizLink.href = `./quiz.html${query}`;
+      quizLink.href = "./quiz.html";
     }
   }
 
