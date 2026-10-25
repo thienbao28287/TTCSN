@@ -217,8 +217,8 @@
         <span class="oq-result-modal__icon" aria-hidden="true">
           <span class="oq-icon oq-icon--style"></span>
         </span>
-        <p class="oq-result-modal__eyebrow">Hoàn thành bài học</p>
-        <h2 id="result-title">Bạn đã đi hết bộ thẻ</h2>
+        <p class="oq-result-modal__eyebrow" data-result-eyebrow>Kết quả học thẻ</p>
+        <h2 id="result-title" data-result-title>Bạn đã đi hết bộ thẻ</h2>
         <p class="oq-result-modal__description" data-result-message>
           Tiếp tục ôn tập để ghi nhớ kiến thức lâu hơn.
         </p>
@@ -239,6 +239,9 @@
         </div>
 
         <div class="oq-result-modal__actions">
+          <button class="oq-btn oq-btn--outline oq-btn--lg oq-btn--flat" type="button" data-result-review disabled>
+            Ôn thẻ chưa nhớ
+          </button>
           <button
             class="oq-btn oq-btn--outline oq-btn--lg oq-btn--flat"
             type="button"

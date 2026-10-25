@@ -252,18 +252,20 @@
 
   .oq-intro__meta {
     display: grid;
-    width: min(100%, 24rem);
     grid-template-columns: repeat(3, minmax(0, 1fr));
     margin-top: var(--oq-space-8);
+    width: min(100%, 25rem);
+    padding: var(--oq-space-2);
+    border-radius: var(--oq-radius-lg);
   }
 
   .oq-intro__meta-item {
     min-width: 0;
-    min-height: 4.75rem;
     flex-direction: column;
     gap: var(--oq-space-2);
-    padding-inline: var(--oq-space-2);
     font-size: var(--oq-body-sm);
+    min-height: 4.25rem;
+    padding-inline: var(--oq-space-2);
   }
 
   .oq-intro__meta-item + .oq-intro__meta-item::before {
@@ -272,8 +274,8 @@
   }
 
   .oq-intro__meta-icon {
-    width: 2.75rem;
-    height: 2.75rem;
+    width: 2rem;
+    height: 2rem;
   }
 
   .oq-intro__meta-icon .oq-icon {
@@ -333,8 +335,8 @@
   }
 
   .oq-intro__meta-icon {
-    width: 2.55rem;
-    height: 2.55rem;
+    width: 2rem;
+    height: 2rem;
   }
 }
 
@@ -379,9 +381,9 @@
   [data-sidebar-mount],
   .oq-app-shell[data-sidebar-collapsed="true"] [data-sidebar-mount] {
     z-index: var(--oq-z-modal);
-    width: min(20rem, 88vw);
     transform: translateX(-101%);
     transition: transform var(--oq-duration-base) var(--oq-ease);
+    width: min(17rem, 88vw);
   }
 
   .oq-app-shell[data-sidebar-open="true"] [data-sidebar-mount] {
@@ -407,12 +409,16 @@
     display: block;
   }
 
-  .oq-app-shell[data-sidebar-collapsed="true"]
-    .oq-sidebar__lessons:not([hidden]) {
+  .oq-app-shell[data-sidebar-collapsed="true"] .oq-sidebar__lessons:not([hidden]) {
     display: grid;
   }
 
-  .oq-study,
+  .oq-study {
+    margin-left: 0;
+    padding: var(--oq-space-4) var(--oq-gutter) var(--oq-space-8);
+    padding-top: var(--oq-space-3);
+  }
+
   .oq-app-shell[data-sidebar-collapsed="true"] .oq-study {
     margin-left: 0;
     padding: var(--oq-space-4) var(--oq-gutter) var(--oq-space-8);
@@ -459,6 +465,7 @@
   .oq-study-card {
     min-height: clamp(21rem, 50vh, 26rem);
     margin-top: var(--oq-space-5);
+    border-radius: var(--oq-radius-lg);
   }
 
   .oq-flashcard--controlled .oq-flashcard__face {
@@ -617,7 +624,12 @@
 
 /* Quiz: tablet and mobile */
 @media (max-width: 47.999rem) {
-  .oq-quiz,
+  .oq-quiz {
+    margin-left: 0;
+    padding: var(--oq-space-4) var(--oq-gutter) var(--oq-space-8);
+    padding-top: var(--oq-space-3);
+  }
+
   .oq-app-shell[data-sidebar-collapsed="true"] .oq-quiz {
     margin-left: 0;
     padding: var(--oq-space-4) var(--oq-gutter) var(--oq-space-8);
@@ -669,6 +681,7 @@
 
   .oq-quiz-lesson-card {
     min-height: 18rem;
+    border-radius: var(--oq-radius-lg);
   }
 
   .oq-quiz__heading {
@@ -690,6 +703,7 @@
     gap: var(--oq-space-5);
     margin-top: var(--oq-space-5);
     padding: var(--oq-space-6);
+    border-radius: var(--oq-radius-lg);
   }
 
   .oq-quiz-question__content {
@@ -863,7 +877,12 @@
 
 /* Statistics: mobile */
 @media (max-width: 47.999rem) {
-  .oq-statistics,
+  .oq-statistics {
+    margin-left: 0;
+    padding: var(--oq-space-4) var(--oq-gutter) var(--oq-space-8);
+    padding-top: var(--oq-space-3);
+  }
+
   .oq-app-shell[data-sidebar-collapsed="true"] .oq-statistics {
     margin-left: 0;
     padding: var(--oq-space-4) var(--oq-gutter) var(--oq-space-8);
@@ -918,6 +937,7 @@
 
   .oq-stat-panel {
     padding: var(--oq-space-5);
+    border-radius: var(--oq-radius-lg);
   }
 
   .oq-stat-panel__header {
@@ -990,42 +1010,5 @@
   .oq-progress-row__fill,
   .oq-course-overview__cta .oq-icon {
     transition: none;
-  }
-}
-
-/* Quizlet-inspired responsive refinements */
-@media (max-width: 47.999rem) {
-  [data-sidebar-mount],
-  .oq-app-shell[data-sidebar-collapsed="true"] [data-sidebar-mount] {
-    width: min(17rem, 88vw);
-  }
-
-  .oq-intro__meta {
-    width: min(100%, 25rem);
-    padding: var(--oq-space-2);
-    border-radius: var(--oq-radius-lg);
-  }
-
-  .oq-intro__meta-item {
-    min-height: 4.25rem;
-    padding-inline: var(--oq-space-2);
-  }
-
-  .oq-intro__meta-icon {
-    width: 2rem;
-    height: 2rem;
-  }
-
-  .oq-study,
-  .oq-quiz,
-  .oq-statistics {
-    padding-top: var(--oq-space-3);
-  }
-
-  .oq-study-card,
-  .oq-quiz-question,
-  .oq-stat-panel,
-  .oq-quiz-lesson-card {
-    border-radius: var(--oq-radius-lg);
   }
 }

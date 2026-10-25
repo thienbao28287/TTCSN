@@ -100,15 +100,17 @@
               <header class="oq-stat-panel__header">
                 <div>
                   <h2 id="lesson-progress-title">Tiến độ từng bài</h2>
-                  <p>So sánh tiến độ học thẻ và kết quả quiz gần nhất.</p>
+                  <p>Theo dõi thẻ đã học, đã nhớ, cần ôn và kết quả quiz gần nhất.</p>
                 </div>
                 <div
                   class="oq-lesson-progress__legend"
                   aria-label="Chú thích biểu đồ"
                 >
                   <span
-                    ><i class="is-study" aria-hidden="true"></i>Học thẻ</span
+                    ><i class="is-study" aria-hidden="true"></i>Đã học</span
                   >
+                  <span><i class="is-known" aria-hidden="true"></i>Đã nhớ</span>
+                  <span><i class="is-review" aria-hidden="true"></i>Cần ôn</span>
                   <span><i class="is-quiz" aria-hidden="true"></i>Quiz</span>
                 </div>
               </header>
@@ -128,7 +130,7 @@
               <header class="oq-stat-panel__header">
                 <div>
                   <h2 id="course-overview-title">Tổng quan khóa học</h2>
-                  <p>Mức độ hoàn thành hiện tại.</p>
+                  <p>Tỷ lệ bài đã nhớ hết toàn bộ thẻ.</p>
                 </div>
               </header>
 
@@ -136,7 +138,7 @@
                 <div
                   class="oq-course-overview__ring"
                   role="progressbar"
-                  aria-label="Tiến độ hoàn thành khóa học"
+                  aria-label="Tỷ lệ bài đã nhớ hết toàn bộ thẻ"
                   aria-valuemin="0"
                   aria-valuemax="100"
                   aria-valuenow="0"
@@ -148,15 +150,13 @@
                 <dl class="oq-course-overview__details">
                   <div>
                     <dt>
-                      <span class="is-complete" aria-hidden="true"></span>Hoàn
-                      thành
+                      <span class="is-complete" aria-hidden="true"></span>Đã nhớ hết
                     </dt>
                     <dd><strong data-course-completed>0</strong> bài</dd>
                   </div>
                   <div>
                     <dt>
-                      <span class="is-remaining" aria-hidden="true"></span>Đang
-                      học
+                      <span class="is-remaining" aria-hidden="true"></span>Cần học / ôn
                     </dt>
                     <dd><strong data-course-remaining>0</strong> bài</dd>
                   </div>

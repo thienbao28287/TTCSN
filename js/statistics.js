@@ -1,7 +1,8 @@
+import {
+  loadDatabase, readUserState, getCourseById, getQuizForLesson, getQuizById,
+  getCourseLessons, getStudyMetrics,
+} from "./data.js";
 import { initSidebar } from "./sidebar.js";
-
-const MOCK_DATA_URL = new URL("../mockData/mockdata.json", import.meta.url);
-const USER_STATE_KEY = "openquiz-user-state";
 
 const elements = {
   sidebarMount: document.querySelector("[data-sidebar-mount]"),
@@ -25,146 +26,56 @@ let database = null;
 let userState = null;
 let activeCourse = null;
 let courseLessons = [];
-let stateWarning = "";
+let lessonStatistics = [];
+let statisticsByLessonId = {};
+let attemptsById = {};
+let latestAttemptsByQuizId = {};
+let completedLessons = 0;
 
-function clone(value) {
-  if (typeof structuredClone === "function") {
-    return structuredClone(value);
-  }
-
-  return JSON.parse(JSON.stringify(value));
-}
-
-function isValidState(value) {
-  return (
-    value &&
-    typeof value === "object" &&
-    Array.isArray(value.lessonProgress) &&
-    Array.isArray(value.quizAttempts) &&
-    Array.isArray(value.activities)
-  );
-}
-
-function readUserState(seed) {
-  try {
-    const stored = localStorage.getItem(USER_STATE_KEY);
-    if (!stored) {
-      return clone(seed);
-    }
-
-    const parsed = JSON.parse(stored);
-    if (!isValidState(parsed)) {
-      stateWarning = "Tiến độ đã lưu không đúng định dạng. Dashboard đang sử dụng dữ liệu mặc định.";
-      return clone(seed);
-    }
-
-    return parsed;
-  } catch {
-    stateWarning = "Không thể đọc tiến độ đã lưu. Dashboard đang sử dụng dữ liệu mặc định.";
-    return clone(seed);
-  }
-}
-
-async function loadDatabase() {
-  const response = await fetch(MOCK_DATA_URL);
-  if (!response.ok) {
-    throw new Error(`Không thể tải mock data: ${response.status}`);
-  }
-
-  const data = await response.json();
-  if (
-    !Array.isArray(data.courses) ||
-    !Array.isArray(data.lessons) ||
-    !Array.isArray(data.flashcards) ||
-    !Array.isArray(data.quizzes) ||
-    !Array.isArray(data.questions) ||
-    !data.initialUserState
-  ) {
-    throw new Error("Mock data không đúng cấu trúc yêu cầu.");
-  }
-
-  return data;
-}
-
-function resolveCourse() {
-  activeCourse =
-    database.courses.find((course) => course.id === userState.activeCourseId) ||
-    database.courses[0];
-
-  if (!activeCourse) {
-    throw new Error("Không có khóa học nào để thống kê.");
-  }
-
-  const lessonOrder = new Map(activeCourse.lessonIds.map((lessonId, index) => [lessonId, index]));
-  courseLessons = database.lessons
-    .filter((lesson) => lesson.courseId === activeCourse.id)
-    .sort(
-      (first, second) =>
-        (lessonOrder.get(first.id) ?? first.order) -
-        (lessonOrder.get(second.id) ?? second.order),
-    );
-}
-
-function findProgress(lessonId) {
-  return userState.lessonProgress.find((progress) => progress.lessonId === lessonId) || null;
-}
-
-function findQuiz(lesson) {
-  return lesson.quizId
-    ? database.quizzes.find((quiz) => quiz.id === lesson.quizId) || null
-    : null;
-}
-
-function getLatestAttempt(quizId) {
-  for (let index = userState.quizAttempts.length - 1; index >= 0; index -= 1) {
-    if (userState.quizAttempts[index].quizId === quizId) {
-      return userState.quizAttempts[index];
+// Tính các số liệu một lần, dùng lại cho danh sách, tổng quan và nút tiếp tục.
+function prepareStatistics() {
+  lessonStatistics = [];
+  statisticsByLessonId = {};
+  attemptsById = {};
+  latestAttemptsByQuizId = {};
+  completedLessons = 0;
+  const progressByLessonId = {};
+  for (let i = 0; i < userState.lessonProgress.length; i++) {
+    const progress = userState.lessonProgress[i];
+    if (!progressByLessonId[progress.lessonId]) {
+      progressByLessonId[progress.lessonId] = progress;
     }
   }
-
-  return null;
-}
-
-function getLessonStudyPercentage(lesson) {
-  const cards = lesson.flashcardIds.filter((cardId) =>
-    database.flashcards.some((card) => card.id === cardId),
-  );
-  const progress = findProgress(lesson.id);
-
-  if (progress?.status === "completed") {
-    return 100;
+  for (let i = 0; i < userState.quizAttempts.length; i++) {
+    const attempt = userState.quizAttempts[i];
+    if (!attemptsById[attempt.id]) {
+      attemptsById[attempt.id] = attempt;
+    }
+    latestAttemptsByQuizId[attempt.quizId] = attempt;
   }
-
-  if (!progress || cards.length === 0) {
-    return 0;
+  for (let i = 0; i < courseLessons.length; i++) {
+    const lesson = courseLessons[i];
+    const metrics = getStudyMetrics(database, lesson, progressByLessonId[lesson.id]);
+    const quiz = getQuizForLesson(database, lesson);
+    let attempt = null;
+    if (quiz) {
+      attempt = latestAttemptsByQuizId[quiz.id] || null;
+    }
+    const statistics = { lesson: lesson, metrics: metrics, quiz: quiz, attempt: attempt };
+    lessonStatistics.push(statistics);
+    statisticsByLessonId[lesson.id] = statistics;
+    if (metrics.allKnown) {
+      completedLessons++;
+    }
   }
-
-  const evaluatedIds = new Set([
-    ...(Array.isArray(progress.knownFlashcardIds) ? progress.knownFlashcardIds : []),
-    ...(Array.isArray(progress.reviewFlashcardIds) ? progress.reviewFlashcardIds : []),
-  ]);
-  const evaluatedCount = cards.filter((cardId) => evaluatedIds.has(cardId)).length;
-  return Math.round((evaluatedCount / cards.length) * 100);
 }
 
-function getCourseMetrics() {
-  const completedLessons = courseLessons.filter(
-    (lesson) => findProgress(lesson.id)?.status === "completed",
-  );
-
-  return {
-    completedLessons: completedLessons.length,
-    totalLessons: courseLessons.length,
-  };
-}
-
-function createProgressBar(label, value, type, emptyLabel = "") {
+function createProgressBar(label, value, type, emptyLabel) {
   const row = document.createElement("div");
   const name = document.createElement("span");
   const track = document.createElement("div");
   const fill = document.createElement("span");
   const result = document.createElement("strong");
-
   row.className = "oq-progress-row";
   name.className = "oq-progress-row__label";
   name.textContent = label;
@@ -173,258 +84,289 @@ function createProgressBar(label, value, type, emptyLabel = "") {
   track.setAttribute("aria-label", label);
   track.setAttribute("aria-valuemin", "0");
   track.setAttribute("aria-valuemax", "100");
-
+  fill.className = "oq-progress-row__fill is-" + type;
   if (value === null) {
     row.classList.add("is-empty");
     track.setAttribute("aria-valuetext", emptyLabel);
-    fill.className = `oq-progress-row__fill is-${type}`;
     fill.style.setProperty("--oq-progress-value", "0%");
     result.textContent = emptyLabel;
   } else {
-    const normalizedValue = Math.min(100, Math.max(0, Math.round(value)));
-    track.setAttribute("aria-valuenow", String(normalizedValue));
-    fill.className = `oq-progress-row__fill is-${type}`;
-    fill.style.setProperty("--oq-progress-value", `${normalizedValue}%`);
-    result.textContent = `${normalizedValue}%`;
+    const percentage = Math.min(100, Math.max(0, Math.round(value)));
+    track.setAttribute("aria-valuenow", percentage);
+    fill.style.setProperty("--oq-progress-value", percentage + "%");
+    result.textContent = percentage + "%";
   }
-
   track.append(fill);
   row.append(name, track, result);
   return row;
 }
 
+function createLessonProgress(statistics, index) {
+  const lesson = statistics.lesson;
+  const metrics = statistics.metrics;
+  const item = document.createElement("article");
+  const heading = document.createElement("div");
+  const order = document.createElement("span");
+  const title = document.createElement("h3");
+  const bars = document.createElement("div");
+  item.className = "oq-lesson-progress__item";
+  heading.className = "oq-lesson-progress__identity";
+  order.textContent = index + 1;
+  if (index < 9) {
+    order.textContent = "0" + (index + 1);
+  }
+  title.textContent = lesson.title;
+  heading.append(order, title);
+
+  let reviewPercentage = 0;
+  if (metrics.total > 0) {
+    reviewPercentage = metrics.reviewCount / metrics.total * 100;
+  }
+  bars.className = "oq-lesson-progress__bars";
+  bars.append(createProgressBar("Đã học", metrics.studiedPercentage, "study", ""));
+  bars.append(createProgressBar("Đã nhớ", metrics.knownPercentage, "known", ""));
+  bars.append(createProgressBar("Cần ôn", reviewPercentage, "review", ""));
+
+  const quiz = statistics.quiz;
+  const latestAttempt = statistics.attempt;
+  let quizPercentage = null;
+  let quizType = "review";
+  let emptyLabel = "Chưa có quiz";
+  if (quiz) {
+    emptyLabel = "Chưa làm";
+  }
+  if (latestAttempt) {
+    quizPercentage = Number(latestAttempt.percentage || 0);
+    if (latestAttempt.passed) {
+      quizType = "quiz";
+    }
+  }
+  bars.append(createProgressBar("Quiz", quizPercentage, quizType, emptyLabel));
+
+  const summary = document.createElement("p");
+  summary.className = "oq-lesson-progress__summary";
+  summary.textContent = "Đang học";
+  if (metrics.allKnown) {
+    summary.textContent = "Đã nhớ hết";
+  } else if (metrics.allStudied) {
+    summary.textContent = "Đã học hết · Cần ôn thêm";
+  }
+  bars.append(summary);
+  if (metrics.reviewCount > 0) {
+    const review = document.createElement("a");
+    review.className = "oq-btn oq-btn--outline oq-btn--flat";
+    review.href = "./study.html?lesson=" + encodeURIComponent(lesson.id) + "&mode=review";
+    review.textContent = "Ôn " + metrics.reviewCount + " thẻ chưa nhớ";
+    bars.append(review);
+  }
+  item.append(heading, bars);
+  return item;
+}
+
 function renderLessonProgress() {
-  const fragment = document.createDocumentFragment();
-
-  courseLessons.forEach((lesson, index) => {
-    const item = document.createElement("article");
-    const heading = document.createElement("div");
-    const order = document.createElement("span");
-    const title = document.createElement("h3");
-    const bars = document.createElement("div");
-    const quiz = findQuiz(lesson);
-    const latestAttempt = quiz ? getLatestAttempt(quiz.id) : null;
-
-    item.className = "oq-lesson-progress__item";
-    heading.className = "oq-lesson-progress__identity";
-    order.textContent = String(index + 1).padStart(2, "0");
-    title.textContent = lesson.title;
-    heading.append(order, title);
-
-    bars.className = "oq-lesson-progress__bars";
-    bars.append(
-      createProgressBar("Học thẻ", getLessonStudyPercentage(lesson), "study"),
-      createProgressBar(
-        "Quiz",
-        latestAttempt ? Number(latestAttempt.percentage || 0) : null,
-        latestAttempt?.passed ? "quiz" : "review",
-        quiz ? "Chưa làm" : "Chưa có quiz",
-      ),
-    );
-
-    item.append(heading, bars);
-    fragment.append(item);
-  });
-
-  elements.progressList.replaceChildren(fragment);
+  elements.progressList.replaceChildren();
+  for (let i = 0; i < courseLessons.length; i++) {
+    elements.progressList.append(createLessonProgress(lessonStatistics[i], i));
+  }
   elements.progressEmpty.hidden = courseLessons.length > 0;
 }
 
 function getContinueLesson() {
-  const requested = courseLessons.find((lesson) => lesson.id === userState.activeLessonId);
-  if (requested) {
-    return requested;
+  let firstUnfinishedLesson = null;
+  for (let i = 0; i < courseLessons.length; i++) {
+    const statistics = lessonStatistics[i];
+    const lesson = statistics.lesson;
+    if (statistics.metrics.allKnown) {
+      continue;
+    }
+    if (lesson.id === userState.activeLessonId) {
+      return lesson;
+    }
+    if (!firstUnfinishedLesson) {
+      firstUnfinishedLesson = lesson;
+    }
   }
-
-  return (
-    courseLessons.find((lesson) => findProgress(lesson.id)?.status !== "completed") ||
-    courseLessons[0] ||
-    null
-  );
+  if (firstUnfinishedLesson) {
+    return firstUnfinishedLesson;
+  }
+  return courseLessons[0] || null;
 }
 
-function renderCourseOverview(metrics) {
-  const percentage = metrics.totalLessons
-    ? Math.round((metrics.completedLessons / metrics.totalLessons) * 100)
-    : 0;
-  const continueLesson = getContinueLesson();
-
-  elements.courseProgress.style.setProperty("--oq-course-angle", `${percentage * 3.6}deg`);
-  elements.courseProgress.setAttribute("aria-valuenow", String(percentage));
-  elements.coursePercentage.textContent = `${percentage}%`;
-  elements.courseCompleted.textContent = String(metrics.completedLessons);
-  elements.courseRemaining.textContent = String(
-    Math.max(metrics.totalLessons - metrics.completedLessons, 0),
-  );
-
-  if (continueLesson) {
-    elements.continueLearning.href = `./study.html?lesson=${encodeURIComponent(continueLesson.id)}`;
-    elements.continueLearning.hidden = false;
-  } else {
-    elements.continueLearning.hidden = true;
+function renderCourseOverview() {
+  const completed = completedLessons;
+  let percentage = 0;
+  if (courseLessons.length > 0) {
+    percentage = Math.round(completed / courseLessons.length * 100);
+  }
+  elements.courseProgress.style.setProperty("--oq-course-angle", percentage * 3.6 + "deg");
+  elements.courseProgress.setAttribute("aria-valuenow", percentage);
+  elements.coursePercentage.textContent = percentage + "%";
+  elements.courseCompleted.textContent = completed;
+  elements.courseRemaining.textContent = courseLessons.length - completed;
+  const lesson = getContinueLesson();
+  elements.continueLearning.hidden = !lesson;
+  if (lesson) {
+    elements.continueLearning.href = "./study.html?lesson=" + encodeURIComponent(lesson.id);
   }
 }
 
-function findLessonForActivity(activity) {
-  if (activity.lessonId) {
-    return courseLessons.find((lesson) => lesson.id === activity.lessonId) || null;
+function getActivityLesson(activity) {
+  let lessonId = activity.lessonId;
+  if (!lessonId && activity.quizId) {
+    const quiz = getQuizById(database, activity.quizId);
+    if (quiz) {
+      lessonId = quiz.lessonId;
+    }
   }
-
-  if (activity.quizId) {
-    const quiz = database.quizzes.find((candidate) => candidate.id === activity.quizId);
-    return quiz ? courseLessons.find((lesson) => lesson.id === quiz.lessonId) || null : null;
+  const statistics = statisticsByLessonId[lessonId];
+  if (statistics && statistics.lesson && statistics.lesson.id === lessonId) {
+    return statistics.lesson;
   }
-
   return null;
 }
 
-function findAttemptForActivity(activity) {
+function getActivityAttempt(activity) {
   if (activity.attemptId) {
-    return userState.quizAttempts.find((attempt) => attempt.id === activity.attemptId) || null;
+    const attempt = attemptsById[activity.attemptId];
+    if (attempt && attempt.id === activity.attemptId) {
+      return attempt;
+    }
+    return null;
   }
-
-  return activity.quizId ? getLatestAttempt(activity.quizId) : null;
+  if (activity.quizId) {
+    return latestAttemptsByQuizId[activity.quizId] || null;
+  }
+  return null;
 }
 
-function formatActivityTime(value) {
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) {
-    return "—";
-  }
-
-  return new Intl.DateTimeFormat("vi-VN", {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  }).format(date);
-}
-
-function formatActivityDateTime(value) {
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) {
-    return "Không có thời gian";
-  }
-
-  return new Intl.DateTimeFormat("vi-VN", {
-    dateStyle: "medium",
-    timeStyle: "short",
-  }).format(date);
-}
-
-function getActivityCopy(activity, lesson) {
+function getActivityCopy(activity) {
   if (activity.type === "lesson_completed") {
-    return { title: "Hoàn thành học thẻ", tone: "success" };
+    return { title: "Đã học hết bộ thẻ", tone: "success" };
   }
-
-  if (activity.type === "quiz_completed") {
-    const attempt = findAttemptForActivity(activity);
-    const percentage = attempt ? Math.round(Number(attempt.percentage || 0)) : null;
-    return {
-      title: percentage === null ? "Hoàn thành quiz" : `${attempt.passed ? "Đạt" : "Hoàn thành"} quiz với ${percentage}%`,
-      tone: attempt?.passed ? "quiz" : "review",
-    };
+  if (activity.type === "lesson_mastered") {
+    return { title: "Đã nhớ hết bộ thẻ", tone: "success" };
   }
-
   if (activity.type === "lesson_started") {
     return { title: "Bắt đầu học thẻ", tone: "info" };
   }
-
+  if (activity.type === "quiz_completed") {
+    const attempt = getActivityAttempt(activity);
+    let title = "Hoàn thành quiz";
+    let tone = "review";
+    if (attempt) {
+      const percentage = Math.round(Number(attempt.percentage || 0));
+      title = "Hoàn thành quiz với " + percentage + "%";
+      if (attempt.passed) {
+        title = "Đạt quiz với " + percentage + "%";
+        tone = "quiz";
+      }
+    }
+    return { title: title, tone: tone };
+  }
   return { title: "Cập nhật hoạt động học tập", tone: "info" };
 }
 
-function createActivityItem(activity) {
-  const lesson = findLessonForActivity(activity);
-  const copy = getActivityCopy(activity, lesson);
+function createActivityItem(activity, lesson) {
+  const copy = getActivityCopy(activity);
   const item = document.createElement("li");
   const marker = document.createElement("span");
-  const content = document.createElement(lesson ? "a" : "div");
+  const content = document.createElement("a");
   const title = document.createElement("strong");
   const detail = document.createElement("span");
   const time = document.createElement("time");
-
   item.className = "oq-activity-list__item";
-  marker.className = `oq-activity-list__marker is-${copy.tone}`;
+  marker.className = "oq-activity-list__marker is-" + copy.tone;
   marker.setAttribute("aria-hidden", "true");
   content.className = "oq-activity-list__content";
   title.textContent = copy.title;
-  detail.textContent = lesson ? `Bài: ${lesson.title}` : "Hoạt động trong khóa học";
-
-  if (lesson && activity.type === "quiz_completed") {
-    content.href = `./quiz.html?lesson=${encodeURIComponent(lesson.id)}`;
-  } else if (lesson) {
-    content.href = `./study.html?lesson=${encodeURIComponent(lesson.id)}`;
+  detail.textContent = "Bài: " + lesson.title;
+  content.href = "./study.html?lesson=" + encodeURIComponent(lesson.id);
+  if (activity.type === "quiz_completed") {
+    content.href = "./quiz.html?lesson=" + encodeURIComponent(lesson.id);
   }
 
+  const date = new Date(activity.createdAt);
   time.dateTime = activity.createdAt || "";
-  time.textContent = formatActivityTime(activity.createdAt);
-  time.title = formatActivityDateTime(activity.createdAt);
-
+  time.textContent = "—";
+  time.title = "Không có thời gian";
+  if (!Number.isNaN(date.getTime())) {
+    time.textContent = date.toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit", hour12: false });
+    time.title = date.toLocaleString("vi-VN", { dateStyle: "medium", timeStyle: "short" });
+  }
   content.append(title, detail);
   item.append(marker, content, time);
   return item;
 }
 
 function renderActivities() {
-  const courseLessonIds = new Set(courseLessons.map((lesson) => lesson.id));
-  const courseQuizIds = new Set(courseLessons.map((lesson) => lesson.quizId).filter(Boolean));
-  const activities = userState.activities
-    .filter(
-      (activity) =>
-        courseLessonIds.has(activity.lessonId) || courseQuizIds.has(activity.quizId),
-    )
-    .sort((first, second) => {
-      const firstTime = new Date(first.createdAt).getTime() || 0;
-      const secondTime = new Date(second.createdAt).getTime() || 0;
-      return secondTime - firstTime;
-    })
-    .slice(0, 5);
-
-  elements.activityList.replaceChildren(...activities.map(createActivityItem));
+  const activities = [];
+  for (let i = 0; i < userState.activities.length; i++) {
+    const activity = userState.activities[i];
+    const lesson = getActivityLesson(activity);
+    if (lesson) {
+      activities.push({
+        activity: activity,
+        lesson: lesson,
+        time: new Date(activity.createdAt).getTime() || 0,
+      });
+    }
+  }
+  activities.sort(function (first, second) {
+    return second.time - first.time;
+  });
+  elements.activityList.replaceChildren();
+  for (let i = 0; i < activities.length && i < 5; i++) {
+    const item = activities[i];
+    elements.activityList.append(createActivityItem(item.activity, item.lesson));
+  }
   elements.activityEmpty.hidden = activities.length > 0;
 }
 
 function renderDashboard() {
-  const metrics = getCourseMetrics();
   elements.courseTitle.textContent = activeCourse.title;
   elements.courseHeading.textContent = activeCourse.title;
   renderLessonProgress();
-  renderCourseOverview(metrics);
+  renderCourseOverview();
   renderActivities();
-  document.title = `Thống kê ${activeCourse.title} | OpenQuiz`;
+  document.title = "Thống kê " + activeCourse.title + " | OpenQuiz";
   elements.workspace.hidden = false;
-  window.requestAnimationFrame(() => elements.workspace.classList.add("is-ready"));
-}
-
-function showError(message) {
-  elements.error.textContent = message;
-  elements.error.hidden = false;
-  elements.workspace.hidden = true;
+  window.requestAnimationFrame(function () {
+    elements.workspace.classList.add("is-ready");
+  });
 }
 
 async function init() {
   try {
     database = await loadDatabase();
-    userState = readUserState(database.initialUserState);
-    resolveCourse();
-
-    if (stateWarning) {
-      elements.storageWarning.textContent = stateWarning;
+    const saved = readUserState(database);
+    userState = saved.state;
+    if (saved.warning) {
+      elements.storageWarning.textContent = saved.warning;
       elements.storageWarning.hidden = false;
     }
-
+    activeCourse = getCourseById(database, userState.activeCourseId);
+    if (!activeCourse) {
+      activeCourse = database.courses[0];
+    }
+    if (!activeCourse) {
+      throw new Error("Không có khóa học nào để thống kê.");
+    }
+    courseLessons = getCourseLessons(database, activeCourse);
+    prepareStatistics();
     await initSidebar({
       mount: elements.sidebarMount,
       lessons: courseLessons,
       activeLessonId: null,
       activePage: "statistics",
-      onLessonChange: (lessonId) => {
-        window.location.href = `./study.html?lesson=${encodeURIComponent(lessonId)}`;
+      onLessonChange: function (lessonId) {
+        window.location.href = "./study.html?lesson=" + encodeURIComponent(lessonId);
       },
     });
-
     renderDashboard();
   } catch (error) {
-    showError(error instanceof Error ? error.message : "Không thể tải dữ liệu thống kê.");
+    elements.error.textContent = error.message;
+    elements.error.hidden = false;
+    elements.workspace.hidden = true;
   }
 }
 
